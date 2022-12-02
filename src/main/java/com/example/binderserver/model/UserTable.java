@@ -10,7 +10,7 @@ public class UserTable {
     private String username;
     private String city;
     private int postal_code;
-    private int phone_number;
+    private String phone_number;
     private int reputation;
     private Boolean is_banned;
 
@@ -18,7 +18,7 @@ public class UserTable {
 
     }
 
-    public UserTable(String username, String city, int postal_code, int phone_number, int reputation, Boolean is_banned) {
+    public UserTable(String username, String city, int postal_code, String phone_number, int reputation, Boolean is_banned) {
         this.username = username;
         this.city = city;
         this.postal_code = postal_code;
@@ -59,11 +59,11 @@ public class UserTable {
         this.postal_code = postal_code;
     }
 
-    public int getPhone_number() {
+    public String getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(int phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 

@@ -1,8 +1,15 @@
 package com.example.binderserver.repository;
 
 import com.example.binderserver.model.UserTable;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-public interface UserTableRepository extends MongoRepository<UserTable, String> {
+import org.springframework.stereotype.Repository;
+@Configuration
+@EnableJpaRepositories(basePackages = "com.binderserver.repository")
+@Repository
+public interface UserTableRepository extends JpaRepository<UserTable, Long> {
+
 
 }
