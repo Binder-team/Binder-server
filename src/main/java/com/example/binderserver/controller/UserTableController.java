@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+//@RequestMapping("/resource/")
 public class UserTableController {
     @Autowired
     private UserTableRepository userTableRepository;
