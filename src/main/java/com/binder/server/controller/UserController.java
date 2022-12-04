@@ -14,11 +14,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/")
 public class UserController {
-    //get employees
-    //get employee by id
-    //save employee
-    //update employee
-    //delete employee
     private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
