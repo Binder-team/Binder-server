@@ -1,13 +1,12 @@
-package com.example.binderserver;
+package com.binder.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BinderServerApplication {
+public class ServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BinderServerApplication.class, args);
+		SpringApplication.run(ServerApplication.class, args);
 	}
-
 }
