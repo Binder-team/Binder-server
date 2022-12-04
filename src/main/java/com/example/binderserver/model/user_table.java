@@ -1,24 +1,28 @@
 package com.example.binderserver.model;
 
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
+public class user_table {
 
-public class UserTable {
-
-    @Id
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String username;
     private String city;
-    private int postal_code;
+    private String postal_code;
     private String phone_number;
     private int reputation;
     private Boolean is_banned;
 
-    public UserTable() {
+    public user_table() {
 
     }
 
-    public UserTable(String username, String city, int postal_code, String phone_number, int reputation, Boolean is_banned) {
+    public user_table(String username, String city, String postal_code, String phone_number, int reputation, Boolean is_banned) {
         this.username = username;
         this.city = city;
         this.postal_code = postal_code;
@@ -51,11 +55,11 @@ public class UserTable {
         this.city = city;
     }
 
-    public int getPostal_code() {
+    public String getPostal_code() {
         return postal_code;
     }
 
-    public void setPostal_code(int postal_code) {
+    public void setPostal_code(String postal_code) {
         this.postal_code = postal_code;
     }
 
