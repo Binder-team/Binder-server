@@ -53,6 +53,8 @@ public class UserBooksController {
         userBooks.setIs_available(userBooks.isIs_available());
         userBooks.setIsbn(userBooks.getIsbn());
         userBooks.setCondition(userBooks.getCondition());
+        userBooks.setImage_url(userBooks.getImage_url());
+        userBooks.setThumbnail_url(userBooks.getThumbnail_url());
 
         return ResponseEntity.ok(this.userBooksRepository.save(userBooks));
 
