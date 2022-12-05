@@ -2,7 +2,7 @@ package com.binder.server.controller;
 
 import com.binder.server.exception.ResourceNotFoundException;
 import com.binder.server.model.Reputation;
-import com.binder.server.repository.ReputationRespository;
+import com.binder.server.repository.ReputationRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/")
 public class ReputationController {
-    private final ReputationRespository reputationRespository;
+    private final ReputationRepository reputationRespository;
 
-    public ReputationController(ReputationRespository reputationRespository) {
+    public ReputationController(ReputationRepository reputationRespository) {
         this.reputationRespository = reputationRespository;
     }
 
