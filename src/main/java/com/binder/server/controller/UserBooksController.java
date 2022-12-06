@@ -55,6 +55,8 @@ public class UserBooksController {
         userBooks.setCondition(userBooks.getCondition());
         userBooks.setImage_url(userBooks.getImage_url());
         userBooks.setThumbnail_url(userBooks.getThumbnail_url());
+        userBooks.setTitle(userBooks.getTitle());
+        userBooks.setAuthor(userBooks.getAuthor());
 
         return ResponseEntity.ok(this.userBooksRepository.save(userBooks));
 

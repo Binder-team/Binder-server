@@ -30,10 +30,16 @@ public class UserBooks {
     @Column(name = "thumbnail_url")
     private String thumbnail_url;
 
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "author")
+    private String author;
+
     public UserBooks() {
     }
 
-    public UserBooks(int user_id, int book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url) {
+    public UserBooks(int user_id, int book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url, String title, String author) {
         this.user_id = user_id;
         this.book_id = book_id;
         this.is_available = is_available;
@@ -41,6 +47,8 @@ public class UserBooks {
         this.condition = condition;
         this.image_url = image_url;
         this.thumbnail_url = thumbnail_url;
+        this.title = title;
+        this.author = author;
     }
 
 
@@ -106,5 +114,21 @@ public class UserBooks {
 
     public void setThumbnail_url(String thumbnail_url) {
         this.thumbnail_url = thumbnail_url;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
