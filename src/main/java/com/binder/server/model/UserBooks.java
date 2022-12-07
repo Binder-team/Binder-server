@@ -13,7 +13,7 @@ public class UserBooks {
     private int user_id;
 
     @Column(name = "book_id")
-    private int book_id;
+    private String book_id;
 
     @Column(name = "is_available")
     private boolean is_available;
@@ -24,10 +24,10 @@ public class UserBooks {
     @Column(name = "condition")
     private int condition;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", length = 20000)
     private String image_url;
 
-    @Column(name = "thumbnail_url")
+    @Column(name = "thumbnail_url", length = 20000)
     private String thumbnail_url;
 
     @Column(name = "title")
@@ -39,7 +39,7 @@ public class UserBooks {
     public UserBooks() {
     }
 
-    public UserBooks(int user_id, int book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url, String title, String author) {
+    public UserBooks(int user_id, String book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url, String title, String author) {
         this.user_id = user_id;
         this.book_id = book_id;
         this.is_available = is_available;
@@ -68,11 +68,11 @@ public class UserBooks {
         this.user_id = user_id;
     }
 
-    public int getBook_id() {
+    public String getBook_id() {
         return book_id;
     }
 
-    public void setBook_id(int book_id) {
+    public void setBook_id(String book_id) {
         this.book_id = book_id;
     }
 
