@@ -1,6 +1,7 @@
 package com.binder.server.model;
 
 import jakarta.persistence.*;
+import org.springframework.boot.convert.DataSizeUnit;
 
 @Entity
 @Table(name = "users_books")
@@ -24,10 +25,10 @@ public class UserBooks {
     @Column(name = "condition")
     private int condition;
 
-    @Column(name = "image_url", length = 20000)
+    @Column(name = "image_url", columnDefinition="TEXT")
     private String image_url;
 
-    @Column(name = "thumbnail_url", length = 20000)
+    @Column(name = "thumbnail_url", columnDefinition="TEXT")
     private String thumbnail_url;
 
     @Column(name = "title")
