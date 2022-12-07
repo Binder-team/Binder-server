@@ -1,7 +1,6 @@
 package com.binder.server.model;
 
 import jakarta.persistence.*;
-import org.springframework.boot.convert.DataSizeUnit;
 
 @Entity
 @Table(name = "users_books")
