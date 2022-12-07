@@ -22,6 +22,10 @@ import jakarta.persistence.*;
     @Column(name = "is_banned")
     private Boolean is_banned;
 
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "fk_trade_id") //in case you want to custom name
+//    private TradeTable tradeTable;
+
     public User() {
     }
 
