@@ -1,4 +1,5 @@
 package com.binder.server.controller;
+
 import com.binder.server.exception.ResourceNotFoundException;
 import com.binder.server.model.TradeTable;
 import com.binder.server.repository.TradeTableRepository;
@@ -50,7 +51,7 @@ public class TradeTableController {
         return ResponseEntity.ok(this.tradeTableRepository.save(tradeTable));
     }
 
-    @DeleteMapping("trade_tables,{id}")
+    @DeleteMapping("trade_tables/{id}")
     public Map<String, Boolean> deleteTradeTable(@PathVariable(value = "id") Long tradeTableId) throws ResourceNotFoundException {
         TradeTable tradeTable = tradeTableRepository.findById(tradeTableId)
                 .orElseThrow(() -> new ResourceNotFoundException("TradeTables not found for this id ::" + tradeTableId));
@@ -60,6 +61,11 @@ public class TradeTableController {
         response.put("deleted", Boolean.TRUE);
 
         return response;
+    }
+
+    @GetMapping("trade_tables/sender/{id}")
+    public List<TradeTable> findByBooksNotByUserId(@PathVariable(value = "id") int id){
+        return this.tradeTableRepository.findBySender(id);
     }
 
 
