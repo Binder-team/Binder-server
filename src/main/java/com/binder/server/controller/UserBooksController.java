@@ -75,5 +75,14 @@ public class UserBooksController {
         return response;
     }
 
+    @GetMapping("user_books/user/{id}")
+    public List<UserBooks> findByBooksByUserId(@PathVariable(value = "id") int id){
+        return this.userBooksRepository.findByUserId(id);
+    }
 
+    @GetMapping("user_books/user/not/{id}")
+    public List<UserBooks> findByBooksNotByUserId(@PathVariable(value = "id") int id){
+        return this.userBooksRepository.findByUserIdNot(id);
+    }
 }
+

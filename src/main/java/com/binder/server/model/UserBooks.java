@@ -9,8 +9,8 @@ public class UserBooks {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "user_id")
-    private int user_id;
+    @Column(name = "userId")
+    private int userId;
 
     @Column(name = "book_id")
     private String book_id;
@@ -39,8 +39,8 @@ public class UserBooks {
     public UserBooks() {
     }
 
-    public UserBooks(int user_id, String book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url, String title, String author) {
-        this.user_id = user_id;
+    public UserBooks(int userId, String book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url, String title, String author) {
+        this.userId = userId;
         this.book_id = book_id;
         this.is_available = is_available;
         this.isbn = isbn;
@@ -61,11 +61,11 @@ public class UserBooks {
     }
 
     public int getUser_id() {
-        return user_id;
+        return userId;
     }
 
     public void setUser_id(int user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
     public String getBook_id() {
