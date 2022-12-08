@@ -21,7 +21,7 @@ import java.sql.*;
 //import io.jsonwebtoken.Jwts;
 //import io.jsonwebtoken.SignatureAlgorithm;
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 
 public class AuthorizationController {
     private final AuthorizationRepository authorizationRepository;
@@ -46,7 +46,12 @@ public class AuthorizationController {
     @PostMapping("/login")
     public ResponseEntity<Double> login(@RequestBody String username) {
         User targetUser = userService.findUserByUsername(username);
-
+        if (targetUser == null) {
+            return ResponseEntity.badRequest().body(0.12);
+        }
+        if (targetUser.getId() == null) {
+            return ResponseEntity.badRequest().body(0.10);
+        }
         Long targetUserId = targetUser.getId();
 
         if ( targetUserId != null) {
