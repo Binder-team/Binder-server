@@ -11,11 +11,11 @@ public class Authorization {
     private Long id;
 
     @Column(name = "user_id")
-    private int user_id;
+    private Long user_id;
     @Column(name = "username")
     private String username;
     @Column(name = "token")
-    private String token;
+    private Double token;
 
     public Long getId() {
         return id;
@@ -28,17 +28,17 @@ public class Authorization {
     public Authorization() {
     }
 
-    public Authorization(int user_id, String username, String token) {
+    public Authorization(Long user_id, String username, Double token) {
         this.user_id = user_id;
         this.username = username;
         this.token = token;
     }
 
-    public int getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
@@ -50,11 +50,11 @@ public class Authorization {
         this.username = username;
     }
 
-    public String getToken() {
+    public Double getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(Double token) {
         this.token = token;
     }
 }
