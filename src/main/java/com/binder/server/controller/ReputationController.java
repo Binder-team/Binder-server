@@ -14,23 +14,23 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/")
 public class ReputationController {
-    private final ReputationRepository reputationRespository;
+    private final ReputationRepository reputationRepository;
 
-    public ReputationController(ReputationRepository reputationRespository) {
-        this.reputationRespository = reputationRespository;
+    public ReputationController(ReputationRepository reputationRepository) {
+        this.reputationRepository = reputationRepository;
     }
 
     //get reputation
     @GetMapping("reputation")
     public List<Reputation> getAllReputation(){
-        return this.reputationRespository.findAll();
+        return this.reputationRepository.findAll();
     }
 
     //get reputation by id
     @GetMapping("reputation/{id}")
     public ResponseEntity<Reputation> getReputationById(@PathVariable(value = "id") Long reputationId)
         throws ResourceNotFoundException {
-        Reputation reputation = reputationRespository.findById(reputationId)
+        Reputation reputation = reputationRepository.findById(reputationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Reputation not found for this id ::" + reputationId));
         return ResponseEntity.ok().body(reputation);
     }
@@ -38,13 +38,13 @@ public class ReputationController {
     //save reputation
     @PostMapping("reputations")
     public Reputation createReputation(@RequestBody Reputation reputation) {
-        return this.reputationRespository.save(reputation);
+        return this.reputationRepository.save(reputation);
     }
     //update reputation
     @PutMapping("reputation/{id}")
     public ResponseEntity<Reputation> updateReputation(@PathVariable(value = "id") Long reputationId,
                                                        @Validated @RequestBody Reputation reputationDetails ) throws ResourceNotFoundException {
-        Reputation reputation = reputationRespository.findById(reputationId)
+        Reputation reputation = reputationRepository.findById(reputationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Reputation not found for this id ::" + reputationId));
         reputation.setReview_target(reputationDetails.getReview_target());
         reputation.setReview_target(reputationDetails.getReview_target());
@@ -52,14 +52,14 @@ public class ReputationController {
         reputation.setReviewer(reputationDetails.getReviewer());
         reputation.setScore(reputationDetails.getScore());
 
-        return ResponseEntity.ok(this.reputationRespository.save(reputation));
+        return ResponseEntity.ok(this.reputationRepository.save(reputation));
     }
     //delete reputation
     @DeleteMapping("reputation/{id}")
       public Map<String, Boolean> deleteReputation(@PathVariable(value = "id") Long reputationId) throws ResourceNotFoundException {
-          Reputation reputation = reputationRespository.findById(reputationId)
+          Reputation reputation = reputationRepository.findById(reputationId)
                   .orElseThrow(() -> new ResourceNotFoundException("Reputation not found for this id ::" + reputationId));
-          this.reputationRespository.delete(reputation);
+          this.reputationRepository.delete(reputation);
 
           Map<String, Boolean> response =new HashMap<>();
           response.put("deleted", Boolean.TRUE);
