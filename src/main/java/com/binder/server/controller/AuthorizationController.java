@@ -1,6 +1,5 @@
 package com.binder.server.controller;
 
-import com.binder.server.model.Authorization;
 import com.binder.server.model.User;
 import com.binder.server.repository.AuthorizationRepository;
 
@@ -10,13 +9,8 @@ import com.binder.server.repository.AuthorizationRepository;
 import com.binder.server.repository.UserRepository;
 import com.binder.server.service.AuthorizationService;
 import com.binder.server.service.UserService;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.*;
 
 //import io.jsonwebtoken.Jwts;
 //import io.jsonwebtoken.SignatureAlgorithm;
@@ -36,7 +30,7 @@ public class AuthorizationController {
     }
     // Get Username and Password
     // Check username and password against User Table
-    // If exists, create new token
+    // If exists, create new token.
     // Token should be given a randomly generated token string
     // Go to Authorization table make new entry.
     // Entry should have userID, username and new token.
@@ -44,28 +38,40 @@ public class AuthorizationController {
 
     //, @RequestBody("password") String password
     @PostMapping("/login")
-    public ResponseEntity<Double> login(@RequestBody String username) {
-        User targetUser = userService.findUserByUsername(username);
-        if (targetUser == null) {
-            return ResponseEntity.badRequest().body(0.12);
-        }
-        if (targetUser.getId() == null) {
-            return ResponseEntity.badRequest().body(0.10);
-        }
-        Long targetUserId = targetUser.getId();
+    public ResponseEntity<User> login(@RequestBody String username) {
 
-        if ( targetUserId != null) {
-            Double userToken = getToken(username);
-            authorizationService.insertAuthID(targetUserId, username, userToken);
-
-            return ResponseEntity.ok().body(userToken);
-        }
-        return ResponseEntity.badRequest().body(0.00);
-
+//        try {
+//            String sql = "select  * from user where username=targetusername"
+//        } catch {
+//
+//        }
+        User targetUser = userRepository.findByUsername(username);
+//        if (targetUser == null) {
+//            return ResponseEntity.badRequest().body(0.12);
+//        }
+//        if (targetUser.getId() == null) {
+//            return ResponseEntity.badRequest().body(0.10);
+//        }
+//        Long targetUserId = targetUser.getId();
+//
+//        if ( targetUserId != null) {
+//            String userToken = getToken(username);
+//            authorizationService.insertAuthID(targetUserId, username, userToken);
+//
+//            return ResponseEntity.ok().body(userToken);
+//        }
+//        return ResponseEntity.badRequest().body("NotFound");
+        return ResponseEntity.ok().body(targetUser);
     }
 
-    private double getToken(String username) {
-        double userToken = username.length() + Math.random();
+    private String getToken(String username) {
+
+        int rand = (int)(Math.random() * 1000);
+        int round = Math.round(rand);
+        String userToken = round+username;
+        System.out.println(userToken);
+
+
         return userToken;
     }
 }

@@ -3,10 +3,12 @@ package com.binder.server.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table (name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Index(columnList = "username")
+//    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "username")

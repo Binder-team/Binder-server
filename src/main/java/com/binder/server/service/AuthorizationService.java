@@ -1,6 +1,6 @@
 package com.binder.server.service;
 
-import com.binder.server.model.Authorization;
+import com.binder.server.model.DummyAuth;
 import com.binder.server.repository.AuthorizationRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +11,8 @@ public class AuthorizationService {
         this.authorizationRepository = authorizationRepository;
     }
 
-    public void insertAuthID(Long user_id, String username, Double token) {
-        Authorization userTokenSystem = new Authorization(user_id, username, token);
+    public void insertAuthID(Long user_id, String username, String token) {
+        DummyAuth userTokenSystem = new DummyAuth(user_id, username, token);
         authorizationRepository.save(userTokenSystem);
 
     }

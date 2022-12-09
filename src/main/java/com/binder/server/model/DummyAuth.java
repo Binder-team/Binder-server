@@ -3,11 +3,11 @@ package com.binder.server.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "authorization")
-public class Authorization {
+@Table(name = "dummyauth")
+public class DummyAuth {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "user_id")
@@ -15,20 +15,20 @@ public class Authorization {
     @Column(name = "username")
     private String username;
     @Column(name = "token")
-    private Double token;
+    private String token;
 
-    public Long getId() {
-        return id;
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+
+    public DummyAuth() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Authorization() {
-    }
-
-    public Authorization(Long user_id, String username, Double token) {
+    public DummyAuth(Long user_id, String username, String token) {
         this.user_id = user_id;
         this.username = username;
         this.token = token;
@@ -50,11 +50,11 @@ public class Authorization {
         this.username = username;
     }
 
-    public Double getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(Double token) {
+    public void setToken(String token) {
         this.token = token;
     }
 }

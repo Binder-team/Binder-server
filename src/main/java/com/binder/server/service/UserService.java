@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 @Service
 
 public class UserService {
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
-    public User findUserByUsername(String username){
-        User targetUser = userRepository.findUserByUsername(username);
+    public User findUser(String username){
+        User targetUser = userRepository.findByUsername(username);
         return targetUser;
 
     }
