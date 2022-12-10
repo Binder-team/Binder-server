@@ -33,9 +33,9 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping("users/info")
-    public ResponseEntity<Object> findUserByUsername(@Validated @RequestBody User userdetails) {
-        User user = userRepository.findUserByUsername(userdetails.getUsername());
+    @PostMapping("users/info")
+    public ResponseEntity<Object> findUserByUsername(@Validated @RequestBody User userDetails) {
+        User user = userRepository.findUserByUsername(userDetails.getUsername());
         user.setId(null);
 
         return ResponseEntity.ok().body(user);
