@@ -15,7 +15,7 @@ public class Authorization {
     @Column(name = "username")
     private String username;
     @Column(name = "token")
-    private Double token;
+    private String token;
 
     public Long getId() {
         return id;
@@ -28,7 +28,7 @@ public class Authorization {
     public Authorization() {
     }
 
-    public Authorization(Long user_id, String username, Double token) {
+    public Authorization(Long user_id, String username, String token) {
         this.user_id = user_id;
         this.username = username;
         this.token = token;
@@ -50,11 +50,11 @@ public class Authorization {
         this.username = username;
     }
 
-    public Double getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(Double token) {
+    public void setToken(String token) {
         this.token = token;
     }
 }

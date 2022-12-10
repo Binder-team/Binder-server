@@ -23,28 +23,29 @@ public class AuthorizationController {
         this.authorizationService = authorizationService;
     }
     @PostMapping("/login")
-    public ResponseEntity<Double> login(@Validated @RequestBody User userDetails) {
+    public ResponseEntity<String> login(@Validated @RequestBody User userDetails) {
         User targetUser = userRepository.findUserByUsername(userDetails.getUsername());
-        if (targetUser == null) {
-            return ResponseEntity.badRequest().body(0.12);
-        }
-        if (targetUser.getId() == null) {
-            return ResponseEntity.badRequest().body(0.10);
-        }
+
         Long targetUserId = targetUser.getId();
 
         if ( targetUserId != null) {
-            Double userToken = getToken(userDetails.getUsername());
+            String userToken = getToken(userDetails.getUsername());
             authorizationService.insertAuthID(targetUserId, userDetails.getUsername(), userToken);
 
             return ResponseEntity.ok().body(userToken);
         }
-        return ResponseEntity.badRequest().body(0.00);
+        return ResponseEntity.badRequest().body("Bad Request");
 
     }
 
-    private double getToken(String username) {
-        double userToken = username.length() + Math.random();
+    private String getToken(String username) {
+
+        int rand = (int)(Math.random() * 1000);
+        int round = Math.round(rand);
+        String userToken = round+username;
+        System.out.println(userToken);
+
+
         return userToken;
     }
 }
