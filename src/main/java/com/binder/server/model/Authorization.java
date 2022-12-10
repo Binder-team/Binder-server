@@ -3,7 +3,7 @@ package com.binder.server.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "authorization")
+@Table(name = "authorization_table")
 public class Authorization {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
