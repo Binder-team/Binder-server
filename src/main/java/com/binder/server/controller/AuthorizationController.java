@@ -1,25 +1,15 @@
 package com.binder.server.controller;
 
-import com.binder.server.model.Authorization;
 import com.binder.server.model.User;
 import com.binder.server.repository.AuthorizationRepository;
-
-
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.AuthorityUtils;
 import com.binder.server.repository.UserRepository;
 import com.binder.server.service.AuthorizationService;
-import com.binder.server.service.UserService;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.sql.*;
-
-//import io.jsonwebtoken.Jwts;
-//import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 
@@ -27,25 +17,14 @@ public class AuthorizationController {
     private final AuthorizationRepository authorizationRepository;
     private final UserRepository userRepository;
     final AuthorizationService authorizationService;
-    final UserService userService;
-    public AuthorizationController (AuthorizationRepository repository,UserRepository userRepository, UserService userService, AuthorizationService authorizationService) {
+    public AuthorizationController (AuthorizationRepository repository,UserRepository userRepository, AuthorizationService authorizationService) {
         this.authorizationRepository = repository;
         this.userRepository = userRepository;
-        this.userService = userService;
         this.authorizationService = authorizationService;
     }
-    // Get Username and Password
-    // Check username and password against User Table
-    // If exists, create new token
-    // Token should be given a randomly generated token string
-    // Go to Authorization table make new entry.
-    // Entry should have userID, username and new token.
-    // Send response with token.
-
-    //, @RequestBody("password") String password
     @PostMapping("/login")
-    public ResponseEntity<Double> login(@RequestBody String username) {
-        User targetUser = userService.findUserByUsername(username);
+    public ResponseEntity<Double> login(@Validated @RequestBody User userDetails) {
+        User targetUser = userRepository.findUserByUsername(userDetails.getUsername());
         if (targetUser == null) {
             return ResponseEntity.badRequest().body(0.12);
         }
@@ -55,8 +34,8 @@ public class AuthorizationController {
         Long targetUserId = targetUser.getId();
 
         if ( targetUserId != null) {
-            Double userToken = getToken(username);
-            authorizationService.insertAuthID(targetUserId, username, userToken);
+            Double userToken = getToken(userDetails.getUsername());
+            authorizationService.insertAuthID(targetUserId, userDetails.getUsername(), userToken);
 
             return ResponseEntity.ok().body(userToken);
         }
