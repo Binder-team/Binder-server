@@ -11,7 +11,7 @@ public class AuthorizationService {
         this.authorizationRepository = authorizationRepository;
     }
 
-    public void insertAuthID(Long user_id, String username, Double token) {
+    public void insertAuthID(Long user_id, String username, String token) {
         Authorization userTokenSystem = new Authorization(user_id, username, token);
         authorizationRepository.save(userTokenSystem);
     }
