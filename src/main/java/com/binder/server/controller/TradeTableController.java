@@ -34,6 +34,9 @@ public class TradeTableController {
  }
     @PostMapping("trade_table")
     public TradeTable createTradeTable(@RequestBody TradeTable tradeTable) {
+        //Should have bookID(which has book owner ID) and token
+
+
         return this.tradeTableRepository.save(tradeTable);
  }
     @PutMapping("trade_table/{id}")

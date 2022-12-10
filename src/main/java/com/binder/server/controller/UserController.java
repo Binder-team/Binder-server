@@ -33,6 +33,14 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
+    @GetMapping("users/info")
+    public ResponseEntity<Object> findUserByUsername(@Validated @RequestBody User userdetails) {
+        User user = userRepository.findUserByUsername(userdetails.getUsername());
+
+
+        return ResponseEntity.ok().body(user);
+    }
+
     @PostMapping("users")
     public User createUser(@RequestBody User user) {
         return this.userRepository.save(user);
