@@ -1,8 +1,10 @@
 package com.binder.server.controller;
 
 import com.binder.server.exception.ResourceNotFoundException;
+import com.binder.server.model.User;
 import com.binder.server.model.UserBooks;
 import com.binder.server.repository.UserBooksRepository;
+import com.binder.server.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +18,11 @@ import java.util.Map;
 public class UserBooksController {
 
     private final UserBooksRepository userBooksRepository;
+    private final UserRepository userRepository;
 
-    public UserBooksController(UserBooksRepository userBooksRepository) {
+    public UserBooksController(UserBooksRepository userBooksRepository, UserRepository userRepository) {
         this.userBooksRepository = userBooksRepository;
+        this.userRepository = userRepository;
     }
 
     //get userBooks
@@ -42,6 +46,12 @@ public class UserBooksController {
     @PostMapping("user_books")
     public UserBooks createUserBooks(@RequestBody UserBooks userBooks) {
         return this.userBooksRepository.save(userBooks);
+    }
+
+    @PostMapping("user_books/user/{username}")
+    public User addBookToUser(@PathVariable(value = "username") String username) {
+        User user = userRepository.findUserByUsername(username);
+        return user;
     }
 
     //update UserBooks
@@ -87,4 +97,3 @@ public class UserBooksController {
         return this.userBooksRepository.findByUserIdNot(id);
     }
 }
-
