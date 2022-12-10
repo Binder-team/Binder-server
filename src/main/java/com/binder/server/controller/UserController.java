@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping("users/info")
     public ResponseEntity<Object> findUserByUsername(@Validated @RequestBody User userdetails) {
         User user = userRepository.findUserByUsername(userdetails.getUsername());
-
+        user.setId(null);
 
         return ResponseEntity.ok().body(user);
     }
