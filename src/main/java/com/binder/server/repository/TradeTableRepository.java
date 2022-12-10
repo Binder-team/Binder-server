@@ -10,4 +10,5 @@ import java.util.List;
 public interface TradeTableRepository extends JpaRepository<TradeTable, Long> {
 
     List<TradeTable> findBySender(int sender);
+    List<TradeTable> findBySenderAndReceiver(int sender, int receiver);
 }
