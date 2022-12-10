@@ -26,12 +26,7 @@ public class TradeTable {
     @Column(name = "is_exchanged")
     private boolean is_exchanged;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_users_id")
-    private User user;
-
     public TradeTable() {
-
     }
 
     public TradeTable(Long id, int sender, int receiver, int book_id, boolean is_matched, boolean is_accepted, boolean is_exchanged) {
