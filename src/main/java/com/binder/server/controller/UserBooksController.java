@@ -48,12 +48,6 @@ public class UserBooksController {
         return this.userBooksRepository.save(userBooks);
     }
 
-    @PostMapping("user_books/user/{username}")
-    public User addBookToUser(@PathVariable(value = "username") String username) {
-        User user = userRepository.findUserByUsername(username);
-        return user;
-    }
-
     //update UserBooks
     @PutMapping("user_books/{id}")
     public ResponseEntity<UserBooks> updateUserBooks(@PathVariable(value ="id") Long userBooksId,
@@ -87,13 +81,15 @@ public class UserBooksController {
         return response;
     }
 
-    @GetMapping("user_books/user/{id}")
-    public List<UserBooks> findByBooksByUserId(@PathVariable(value = "id") int id){
-        return this.userBooksRepository.findByUserId(id);
+    @GetMapping("user_books/user/{username}")
+    public List<UserBooks> findUserBooks(@PathVariable(value = "username") String username){
+        User user = userRepository.findUserByUsername(username);
+        return this.userBooksRepository.findByUserId(user.getId());
     }
 
-    @GetMapping("user_books/user/not/{id}")
-    public List<UserBooks> findByBooksNotByUserId(@PathVariable(value = "id") int id){
-        return this.userBooksRepository.findByUserIdNot(id);
+    @GetMapping("user_books/swipe/{username}")
+    public List<UserBooks> findOtherBooks(@PathVariable(value = "username") String username) {
+        User user = userRepository.findUserByUsername(username);
+        return this.userBooksRepository.findByUserIdNot(user.getId());
     }
 }
