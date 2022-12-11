@@ -54,7 +54,7 @@ public class UserBooksController {
            @Validated @RequestBody UserBooks userBooksDetails) throws ResourceNotFoundException {
         UserBooks userBooks = userBooksRepository.findById(userBooksId)
                 .orElseThrow(() -> new ResourceNotFoundException("UserBooks not found for this id :: " +userBooksId));
-        userBooks.setUser_id(userBooksDetails.getUser_id());
+        userBooks.setUserId(userBooksDetails.getUserId());
         userBooks.setBook_id(userBooks.getBook_id());
         userBooks.setIs_available(userBooks.isIs_available());
         userBooks.setIsbn(userBooks.getIsbn());

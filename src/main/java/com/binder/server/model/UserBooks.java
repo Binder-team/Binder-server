@@ -21,13 +21,16 @@ public class UserBooks {
     @Column(name = "isbn")
     private String isbn;
 
-    @Column(name = "condition")
-    private int condition;
+    @Column(name = "condition", columnDefinition = "TEXT")
+    private String condition;
 
-    @Column(name = "image_url", columnDefinition="TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String image_url;
 
-    @Column(name = "thumbnail_url", columnDefinition="TEXT")
+    @Column(name = "thumbnail_url", columnDefinition = "TEXT")
     private String thumbnail_url;
 
     @Column(name = "title")
@@ -39,29 +42,34 @@ public class UserBooks {
     public UserBooks() {
     }
 
-    public UserBooks(Long userId, String book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url, String title, String author) {
+    public UserBooks(long id, Long userId, String book_id, boolean is_available, String isbn, String condition, String description, String image_url, String thumbnail_url, String title, String author) {
+        this.id = id;
         this.userId = userId;
         this.book_id = book_id;
         this.is_available = is_available;
         this.isbn = isbn;
         this.condition = condition;
+        this.description = description;
         this.image_url = image_url;
         this.thumbnail_url = thumbnail_url;
         this.title = title;
         this.author = author;
     }
 
-
     public long getId() {
         return id;
     }
 
-    public Long getUser_id() {
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.userId = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getBook_id() {
@@ -88,12 +96,20 @@ public class UserBooks {
         this.isbn = isbn;
     }
 
-    public int getCondition() {
+    public String getCondition() {
         return condition;
     }
 
-    public void setCondition(int condition) {
+    public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImage_url() {
@@ -128,3 +144,4 @@ public class UserBooks {
         this.author = author;
     }
 }
+
