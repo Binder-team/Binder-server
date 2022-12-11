@@ -2,7 +2,11 @@ package com.binder.server.controller;
 
 import com.binder.server.exception.ResourceNotFoundException;
 import com.binder.server.model.TradeTable;
+import com.binder.server.model.User;
+import com.binder.server.model.UserBooks;
 import com.binder.server.repository.TradeTableRepository;
+import com.binder.server.repository.UserBooksRepository;
+import com.binder.server.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +19,13 @@ import java.util.Map;
 @RequestMapping("/api/")
 public class TradeTableController {
     private final TradeTableRepository tradeTableRepository;
+    private final UserRepository userRepository;
+    private final UserBooksRepository userBooksRepository;
 
-    public TradeTableController(TradeTableRepository tradeTableRepository) {
+    public TradeTableController(TradeTableRepository tradeTableRepository, UserRepository userRepository, UserBooksRepository userBooksRepository) {
         this.tradeTableRepository = tradeTableRepository;
+        this.userRepository = userRepository;
+        this.userBooksRepository = userBooksRepository;
     }
 
     @GetMapping("trade_table")
@@ -31,14 +39,23 @@ public class TradeTableController {
         TradeTable tradeTable = tradeTableRepository.findById(tradeTableId)
                 .orElseThrow(() -> new ResourceNotFoundException("TradeTable not found for this id :: " + tradeTableId));
         return ResponseEntity.ok().body(tradeTable);
- }
-    @PostMapping("trade_table")
-    public TradeTable createTradeTable(@RequestBody TradeTable tradeTable) {
+    }
+    @PostMapping("trade_table/user/{username}")
+    public List<TradeTable> createTradeTable(@RequestBody UserBooks book, @PathVariable(value = "username") String username){
         //Should have bookID(which has book owner ID) and token
+        User sender = userRepository.findUserByUsername(username);
+        TradeTable trade = new TradeTable();
+        trade.setSender(sender.getId());
+        trade.setReceiver(book.getUser_id());
+        trade.setBook_id(book.getId());
+        trade.setIs_accepted(false);
+        trade.setIs_exchanged(false);
+        trade.setIs_matched(false);
+        this.tradeTableRepository.save(trade);
+        List<TradeTable> match = tradeTableRepository.findBySenderAndReceiver(book.getUser_id(), sender.getId());
+        return match;
 
-
-        return this.tradeTableRepository.save(tradeTable);
- }
+    }
     @PutMapping("trade_table/{id}")
     public ResponseEntity<TradeTable> updateTradeTable(@PathVariable(value ="id") Long tradeTableId,
                                                        @Validated @RequestBody TradeTable tradeTableDetails) throws ResourceNotFoundException {
@@ -50,7 +67,6 @@ public class TradeTableController {
         tradeTable.setIs_matched(tradeTableDetails.isIs_matched());
         tradeTable.setIs_accepted(tradeTableDetails.isIs_accepted());
         tradeTable.setIs_exchanged(tradeTableDetails.isIs_exchanged());
-
         return ResponseEntity.ok(this.tradeTableRepository.save(tradeTable));
     }
 
@@ -67,12 +83,8 @@ public class TradeTableController {
     }
 
     @GetMapping("trade_table/sender/{id}")
-    public List<TradeTable> findByBooksNotByUserId(@PathVariable(value = "id") int id){
+    public List<TradeTable> findByBooksNotByUserId(@PathVariable(value = "id") Long id){
         return this.tradeTableRepository.findBySender(id);
     }
 
-    @PostMapping("trade_table/match")
-    public List<TradeTable> findSenderAndReceiver(@Validated @RequestBody TradeTable tradeTableDetails) {
-        return this.tradeTableRepository.findBySenderAndReceiver(tradeTableDetails.getReceiver(), tradeTableDetails.getSender());
-    }
 }
