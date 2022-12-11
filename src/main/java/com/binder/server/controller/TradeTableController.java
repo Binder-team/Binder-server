@@ -46,13 +46,13 @@ public class TradeTableController {
         User sender = userRepository.findUserByUsername(username);
         TradeTable trade = new TradeTable();
         trade.setSender(sender.getId());
-        trade.setReceiver(book.getUser_id());
+        trade.setReceiver(book.getUserId());
         trade.setBook_id(book.getId());
         trade.setIs_accepted(false);
         trade.setIs_exchanged(false);
         trade.setIs_matched(false);
         this.tradeTableRepository.save(trade);
-        List<TradeTable> match = tradeTableRepository.findBySenderAndReceiver(book.getUser_id(), sender.getId());
+        List<TradeTable> match = tradeTableRepository.findBySenderAndReceiver(book.getUserId(), sender.getId());
         return match;
 
     }
