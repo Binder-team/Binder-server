@@ -82,9 +82,14 @@ public class TradeTableController {
         return response;
     }
 
-    @GetMapping("trade_table/sender/{id}")
-    public List<TradeTable> findByBooksNotByUserId(@PathVariable(value = "id") Long id){
+    @GetMapping("trade_table/sender/{username}")
+    public List<TradeTable> findByBooksNotByUserId(@PathVariable(value = "username") Long id){
         return this.tradeTableRepository.findBySender(id);
     }
 
+    @GetMapping("trade_table/liked/{username}")
+    public List<TradeTable> findLikedBooksByUsername(@PathVariable(value = "username") String username){
+        User user = userRepository.findUserByUsername(username);
+        return this.tradeTableRepository.findBySender(user.getId());
+    }
 }
