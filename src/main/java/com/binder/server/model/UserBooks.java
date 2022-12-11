@@ -10,7 +10,7 @@ public class UserBooks {
     private long id;
 
     @Column(name = "userId")
-    private int userId;
+    private Long userId;
 
     @Column(name = "book_id")
     private String book_id;
@@ -39,7 +39,7 @@ public class UserBooks {
     public UserBooks() {
     }
 
-    public UserBooks(int userId, String book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url, String title, String author) {
+    public UserBooks(Long userId, String book_id, boolean is_available, String isbn, int condition, String image_url, String thumbnail_url, String title, String author) {
         this.userId = userId;
         this.book_id = book_id;
         this.is_available = is_available;
@@ -56,15 +56,11 @@ public class UserBooks {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getUser_id() {
+    public Long getUser_id() {
         return userId;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.userId = user_id;
     }
 
