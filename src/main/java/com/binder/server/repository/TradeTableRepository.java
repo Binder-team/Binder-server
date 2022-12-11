@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface TradeTableRepository extends JpaRepository<TradeTable, Long> {
 
-    List<TradeTable> findBySender(int sender);
-    List<TradeTable> findBySenderAndReceiver(int sender, int receiver);
+    List<TradeTable> findBySender(Long sender);
+    List<TradeTable> findBySenderAndReceiver(Long sender, Long receiver);
 }
