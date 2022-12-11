@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface UserBooksRepository extends JpaRepository<UserBooks, Long> {
 
-    List<UserBooks> findByUserId(int userId);
-    List<UserBooks> findByUserIdNot(int userId);
+    List<UserBooks> findByUserId(Long userId);
+    List<UserBooks> findByUserIdNot(Long userId);
 }
