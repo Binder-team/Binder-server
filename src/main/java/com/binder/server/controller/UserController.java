@@ -53,6 +53,7 @@ public class UserController {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
         user.setUsername(userDetails.getUsername());
         user.setCity(userDetails.getCity());
+        user.setEmail(userDetails.getEmail());
         user.setPostal_code(userDetails.getPostal_code());
         user.setPhone_number(userDetails.getPhone_number());
         user.setReputation(userDetails.getReputation());
