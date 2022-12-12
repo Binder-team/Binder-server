@@ -43,8 +43,10 @@ public class UserBooksController {
 
 
     //save UserBooks
-    @PostMapping("user_books")
-    public UserBooks createUserBooks(@RequestBody UserBooks userBooks) {
+    @PostMapping("user_books/user/{username}")
+    public UserBooks createUserBooks(@RequestBody UserBooks userBooks, @PathVariable(value = "username")String username) {
+        User user = userRepository.findUserByUsername(username);
+        userBooks.setUserId(user.getId());
         return this.userBooksRepository.save(userBooks);
     }
 
