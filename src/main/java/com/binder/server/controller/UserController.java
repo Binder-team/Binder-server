@@ -14,11 +14,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/")
 public class UserController {
-    //get employees
-    //get employee by id
-    //save employee
-    //update employee
-    //delete employee
     private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
@@ -38,6 +33,14 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
+    @PostMapping("users/info")
+    public ResponseEntity<Object> findUserByUsername(@Validated @RequestBody User userDetails) {
+        User user = userRepository.findUserByUsername(userDetails.getUsername());
+        user.setId(null);
+
+        return ResponseEntity.ok().body(user);
+    }
+
     @PostMapping("users")
     public User createUser(@RequestBody User user) {
         return this.userRepository.save(user);
@@ -50,6 +53,7 @@ public class UserController {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found!"));
         user.setUsername(userDetails.getUsername());
         user.setCity(userDetails.getCity());
+        user.setEmail(userDetails.getEmail());
         user.setPostal_code(userDetails.getPostal_code());
         user.setPhone_number(userDetails.getPhone_number());
         user.setReputation(userDetails.getReputation());
@@ -58,6 +62,7 @@ public class UserController {
         return ResponseEntity.ok(this.userRepository.save(user));
     }
 
+    @DeleteMapping("users/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found!"));

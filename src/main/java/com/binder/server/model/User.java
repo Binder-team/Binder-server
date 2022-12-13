@@ -3,8 +3,10 @@ package com.binder.server.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
-    public class User {
+@Table(name = "users", indexes = {
+        @Index(name = "idx_user_username_unq", columnList = "username", unique = true)
+})
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,23 +15,31 @@ import jakarta.persistence.*;
     private String username;
     @Column(name = "city")
     private String city;
+    @Column(name = "profile_url", columnDefinition = "TEXT")
+    private  String profile_url;
     @Column(name = "postal_code")
     private String postal_code;
     @Column(name = "phone_number")
     private String phone_number;
+    @Column(name = "email",  columnDefinition = "TEXT")
+    private String email;
     @Column(name = "reputation")
     private int reputation;
     @Column(name = "is_banned")
     private Boolean is_banned;
 
+
     public User() {
     }
 
-    public User(String username, String city, String postal_code, String phone_number, int reputation, Boolean is_banned) {
+    public User(Long id, String username, String city, String profile_url, String postal_code, String phone_number, String email, int reputation, Boolean is_banned) {
+        this.id = id;
         this.username = username;
         this.city = city;
+        this.profile_url = profile_url;
         this.postal_code = postal_code;
         this.phone_number = phone_number;
+        this.email = email;
         this.reputation = reputation;
         this.is_banned = is_banned;
     }
@@ -58,6 +68,14 @@ import jakarta.persistence.*;
         this.city = city;
     }
 
+    public String getProfile_url() {
+        return profile_url;
+    }
+
+    public void setProfile_url(String profile_url) {
+        this.profile_url = profile_url;
+    }
+
     public String getPostal_code() {
         return postal_code;
     }
@@ -72,6 +90,14 @@ import jakarta.persistence.*;
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getReputation() {
