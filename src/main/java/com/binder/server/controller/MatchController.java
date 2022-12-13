@@ -1,16 +1,16 @@
 package com.binder.server.controller;
 
+import com.binder.server.exception.ResourceNotFoundException;
 import com.binder.server.model.Match;
 import com.binder.server.model.User;
 import com.binder.server.repository.MatchRepository;
 import com.binder.server.repository.UserBooksRepository;
 import com.binder.server.repository.UserRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/")
@@ -30,5 +30,17 @@ public class MatchController {
         User user = userRepository.findUserByUsername(username);
         List<Match> matches = matchRepository.findByUser1IdOrUser2Id(user.getId(), user.getId());
         return matches;
+    }
+
+    @DeleteMapping("matches/{id}")
+    public Map<String, Boolean> deleteTradeTable(@PathVariable(value = "id") Long matchId) throws ResourceNotFoundException {
+        Match match = matchRepository.findById(matchId)
+                .orElseThrow(() -> new ResourceNotFoundException("Match not found for this id ::" + matchId));
+        this.matchRepository.delete(match);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+
+        return response;
     }
 }
