@@ -23,11 +23,13 @@ public class TradeTableController {
     private final TradeTableRepository tradeTableRepository;
     private final UserRepository userRepository;
     private final MatchRepository matchRepository;
+    private final UserBooksRepository userBooksRepository;
 
-    public TradeTableController(TradeTableRepository tradeTableRepository, UserRepository userRepository, MatchRepository matchRepository) {
+    public TradeTableController(TradeTableRepository tradeTableRepository, UserRepository userRepository, MatchRepository matchRepository, UserBooksRepository userBooksRepository) {
         this.tradeTableRepository = tradeTableRepository;
         this.userRepository = userRepository;
         this.matchRepository = matchRepository;
+        this.userBooksRepository = userBooksRepository;
     }
 
     @GetMapping("trade_table")
@@ -61,13 +63,26 @@ public class TradeTableController {
                 Match match = new Match();
                 TradeTable matchTrade = matchList.get(i);
                 User receiver = userRepository.findUserById(matchTrade.getSender());
+                UserBooks book2 = userBooksRepository.getReferenceById(matchTrade.getBook_id());
                 match.setUser1Id(sender.getId());
                 match.setUsername1(sender.getUsername());
                 match.setUser2Id((receiver.getId()));
                 match.setUsername2(receiver.getUsername());
                 match.setBook1Id(matchTrade.getBook_id());
                 match.setBook2Id(book.getId());
+                match.setThumbnail1(book2.getThumbnail_url());
+                match.setThumbnail2(book.getThumbnail_url());
+                match.setTitle1(book2.getTitle());
+                match.setTitle2(book.getTitle());
+                match.setAuthor1(book2.getAuthor());
+                match.setAuthor2(book.getAuthor());
+                match.setCondition1(book2.getCondition());
+                match.setCondition2(book.getCondition());
+
+
                 this.matchRepository.save(match);
+                matchTrade.setIs_matched(true);
+                this.tradeTableRepository.save(matchTrade);
             }
         }
         return matchList.size();
