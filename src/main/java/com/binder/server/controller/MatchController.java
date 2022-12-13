@@ -25,6 +25,11 @@ public class MatchController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("matches")
+    public List<Match> getAllMatches() {
+        return this.matchRepository.findAll();
+    }
+
     @GetMapping("matches/{username}")
     public List<Match> findUserMatches (@PathVariable(value = "username") String username) {
         User user = userRepository.findUserByUsername(username);
