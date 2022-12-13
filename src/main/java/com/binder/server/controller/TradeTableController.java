@@ -60,7 +60,7 @@ public class TradeTableController {
             for (int i = 0; i < matchList.size(); i++) {
                 Match match = new Match();
                 TradeTable matchTrade = matchList.get(i);
-                User receiver = userRepository.findUserById(matchTrade.getReceiver());
+                User receiver = userRepository.findUserById(matchTrade.getSender());
                 match.setUser1Id(sender.getId());
                 match.setUsername1(sender.getUsername());
                 match.setUser2Id((receiver.getId()));
