@@ -78,6 +78,10 @@ public class TradeTableController {
                 match.setAuthor2(book.getAuthor());
                 match.setCondition1(book2.getCondition());
                 match.setCondition2(book.getCondition());
+                match.setEmail1(sender.getEmail());
+                match.setEmail2(receiver.getEmail());
+                match.setPhone1(sender.getPhone_number());
+                match.setPhone2(receiver.getPhone_number());
 
 
                 this.matchRepository.save(match);

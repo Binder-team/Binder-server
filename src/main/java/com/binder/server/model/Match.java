@@ -15,6 +15,10 @@ public class Match {
 
     @Column(name = "book1Id")
     private Long book1Id;
+    @Column(name = "email1")
+    private String email1;
+    @Column(name = "phone1")
+    private String phone1;
 
     @Column(name = "thumbnail1", columnDefinition = "TEXT")
     private String thumbnail1;
@@ -41,16 +45,21 @@ public class Match {
     private String author2;
     @Column(name= "book2Id")
     private Long book2Id;
-
+    @Column(name = "email2")
+    private String email2;
+    @Column(name = "phone2")
+    private String phone2;
     @Column(name = "thumbnail2", columnDefinition = "TEXT")
     private String thumbnail2;
     public Match() {
     }
 
-    public Match(Long id, Long user1Id, Long book1Id, String thumbnail1, String username1, String condition1, String title1, String author1, Long user2Id, String username2, String condition2, String title2, String author2, Long book2Id, String thumbnail2) {
+    public Match(Long id, Long user1Id, Long book1Id, String email1, String phone1, String thumbnail1, String username1, String condition1, String title1, String author1, Long user2Id, String username2, String condition2, String title2, String author2, Long book2Id, String email2, String phone2, String thumbnail2) {
         this.id = id;
         this.user1Id = user1Id;
         this.book1Id = book1Id;
+        this.email1 = email1;
+        this.phone1 = phone1;
         this.thumbnail1 = thumbnail1;
         this.username1 = username1;
         this.condition1 = condition1;
@@ -62,6 +71,8 @@ public class Match {
         this.title2 = title2;
         this.author2 = author2;
         this.book2Id = book2Id;
+        this.email2 = email2;
+        this.phone2 = phone2;
         this.thumbnail2 = thumbnail2;
     }
 
@@ -183,5 +194,37 @@ public class Match {
 
     public void setAuthor2(String author2) {
         this.author2 = author2;
+    }
+
+    public String getEmail1() {
+        return email1;
+    }
+
+    public void setEmail1(String email1) {
+        this.email1 = email1;
+    }
+
+    public String getPhone1() {
+        return phone1;
+    }
+
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+
+    public void setEmail2(String email2) {
+        this.email2 = email2;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
     }
 }
