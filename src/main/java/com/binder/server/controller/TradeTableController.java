@@ -1,9 +1,11 @@
 package com.binder.server.controller;
 
 import com.binder.server.exception.ResourceNotFoundException;
+import com.binder.server.model.Match;
 import com.binder.server.model.TradeTable;
 import com.binder.server.model.User;
 import com.binder.server.model.UserBooks;
+import com.binder.server.repository.MatchRepository;
 import com.binder.server.repository.TradeTableRepository;
 import com.binder.server.repository.UserBooksRepository;
 import com.binder.server.repository.UserRepository;
@@ -20,12 +22,12 @@ import java.util.Map;
 public class TradeTableController {
     private final TradeTableRepository tradeTableRepository;
     private final UserRepository userRepository;
-    private final UserBooksRepository userBooksRepository;
+    private final MatchRepository matchRepository;
 
-    public TradeTableController(TradeTableRepository tradeTableRepository, UserRepository userRepository, UserBooksRepository userBooksRepository) {
+    public TradeTableController(TradeTableRepository tradeTableRepository, UserRepository userRepository, MatchRepository matchRepository) {
         this.tradeTableRepository = tradeTableRepository;
         this.userRepository = userRepository;
-        this.userBooksRepository = userBooksRepository;
+        this.matchRepository = matchRepository;
     }
 
     @GetMapping("trade_table")
@@ -41,7 +43,7 @@ public class TradeTableController {
         return ResponseEntity.ok().body(tradeTable);
     }
     @PostMapping("trade_table/user/{username}")
-    public List<TradeTable> createTradeTable(@RequestBody UserBooks book, @PathVariable(value = "username") String username){
+    public int createTradeTable(@RequestBody UserBooks book, @PathVariable(value = "username") String username){
         //Should have bookID(which has book owner ID) and token
         User sender = userRepository.findUserByUsername(username);
         TradeTable trade = new TradeTable();
@@ -52,9 +54,23 @@ public class TradeTableController {
         trade.setIs_exchanged(false);
         trade.setIs_matched(false);
         this.tradeTableRepository.save(trade);
-        List<TradeTable> match = tradeTableRepository.findBySenderAndReceiver(book.getUserId(), sender.getId());
-        return match;
 
+        List<TradeTable> matchList = tradeTableRepository.findBySenderAndReceiver(book.getUserId(), sender.getId());
+        if(matchList.size() != 0) {
+            for (int i = 0; i < matchList.size(); i++) {
+                Match match = new Match();
+                TradeTable matchTrade = matchList.get(i);
+                User receiver = userRepository.findUserById(matchTrade.getReceiver());
+                match.setUser1Id(sender.getId());
+                match.setUsername1(sender.getUsername());
+                match.setUser2Id((receiver.getId()));
+                match.setUsername2(receiver.getUsername());
+                match.setBook1Id(matchTrade.getBook_id());
+                match.setBook2Id(book.getId());
+                this.matchRepository.save(match);
+            }
+        }
+        return matchList.size();
     }
     @PutMapping("trade_table/{id}")
     public ResponseEntity<TradeTable> updateTradeTable(@PathVariable(value ="id") Long tradeTableId,
@@ -87,4 +103,5 @@ public class TradeTableController {
         User user = userRepository.findUserByUsername(username);
         return this.tradeTableRepository.findBySender(user.getId());
     }
+
 }
