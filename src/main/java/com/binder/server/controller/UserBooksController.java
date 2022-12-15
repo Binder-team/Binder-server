@@ -45,6 +45,7 @@ public class UserBooksController {
     public UserBooks createUserBooks(@RequestBody UserBooks userBooks, @PathVariable(value = "username")String username) {
         User user = userRepository.findUserByUsername(username);
         userBooks.setUserId(user.getId());
+        userBooks.setIsAvailable(true);
         return this.userBooksRepository.save(userBooks);
     }
 
