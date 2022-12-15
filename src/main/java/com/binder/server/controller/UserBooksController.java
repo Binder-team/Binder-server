@@ -56,7 +56,7 @@ public class UserBooksController {
                 .orElseThrow(() -> new ResourceNotFoundException("UserBooks not found for this id :: " +userBooksId));
         userBooks.setUserId(userBooksDetails.getUserId());
         userBooks.setBook_id(userBooks.getBook_id());
-        userBooks.setIs_available(userBooks.isIsAvailable());
+        userBooks.setIsAvailable(userBooks.isIsAvailable());
         userBooks.setIsbn(userBooks.getIsbn());
         userBooks.setCondition(userBooks.getCondition());
         userBooks.setImage_url(userBooks.getImage_url());
