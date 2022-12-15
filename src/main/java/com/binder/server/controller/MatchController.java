@@ -47,4 +47,20 @@ public class MatchController {
 
         return response;
     }
+
+    @PutMapping("matches/accept/user/{username}")
+    public void acceptTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+        if (username == matchDetails.getUsername1()){
+            matchDetails.setDidUser1Accept(true);
+        } else matchDetails.setDidUser2Accept(true);
+        this.matchRepository.save(matchDetails);
+    }
+    
+    @PutMapping("matches/exchange/user/{username}")
+    public void booksExchanged(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+        if (username == matchDetails.getUsername1()){
+            matchDetails.setDidUser1Exchange(true);
+        } else matchDetails.setDidUser2Exchange(true);
+        this.matchRepository.save(matchDetails);
+    }
 }
