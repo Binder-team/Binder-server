@@ -67,8 +67,10 @@ public class MatchController {
     public void denyTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
         UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
         UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+        Match matchRecord = matchRepository.findMatchById(matchDetails.getId());
         book1.setIsAvailable(true);
         book2.setIsAvailable(true);
+        this.matchRepository.delete(matchRecord);
         this.userBooksRepository.save(book1);
         this.userBooksRepository.save(book2);
         if (username == matchDetails.getUsername1()){
