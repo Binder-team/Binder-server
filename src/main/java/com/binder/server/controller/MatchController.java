@@ -4,7 +4,6 @@ import com.binder.server.exception.ResourceNotFoundException;
 import com.binder.server.model.Match;
 import com.binder.server.model.User;
 import com.binder.server.repository.MatchRepository;
-import com.binder.server.repository.UserBooksRepository;
 import com.binder.server.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ public class MatchController {
     private final UserRepository userRepository;
 
 
-    public MatchController(MatchRepository matchRepository, UserBooksRepository userBooksRepository, UserRepository userRepository) {
+    public MatchController(MatchRepository matchRepository, UserRepository userRepository) {
         this.matchRepository = matchRepository;
         this.userRepository = userRepository;
     }
