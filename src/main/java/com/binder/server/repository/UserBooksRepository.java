@@ -11,4 +11,5 @@ public interface UserBooksRepository extends JpaRepository<UserBooks, Long> {
 
     List<UserBooks> findByUserId(Long userId);
     List<UserBooks> findByUserIdNotAndIsAvailable(Long userId, Boolean isAvailable);
+    UserBooks findUserBooksById(Long id);
 }

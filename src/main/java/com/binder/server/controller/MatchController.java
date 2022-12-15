@@ -3,7 +3,9 @@ package com.binder.server.controller;
 import com.binder.server.exception.ResourceNotFoundException;
 import com.binder.server.model.Match;
 import com.binder.server.model.User;
+import com.binder.server.model.UserBooks;
 import com.binder.server.repository.MatchRepository;
+import com.binder.server.repository.UserBooksRepository;
 import com.binder.server.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +19,12 @@ public class MatchController {
 
     private final MatchRepository matchRepository;
     private final UserRepository userRepository;
+    private final UserBooksRepository userBooksRepository;
 
-
-    public MatchController(MatchRepository matchRepository, UserRepository userRepository) {
+    public MatchController(MatchRepository matchRepository, UserRepository userRepository, UserBooksRepository userBooksRepository) {
         this.matchRepository = matchRepository;
         this.userRepository = userRepository;
+        this.userBooksRepository = userBooksRepository;
     }
 
     @GetMapping("matches")
@@ -53,6 +56,20 @@ public class MatchController {
         if (username == matchDetails.getUsername1()){
             matchDetails.setDidUser1Accept(true);
         } else matchDetails.setDidUser2Accept(true);
+        this.matchRepository.save(matchDetails);
+    }
+
+    @PutMapping("matches/deny/user/{username}")
+    public void denyTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+        UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+        UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+        book1.setIs_available(true);
+        book2.setIs_available(true);
+        this.userBooksRepository.save(book1);
+        this.userBooksRepository.save(book2);
+        if (username == matchDetails.getUsername1()){
+            matchDetails.setDidUser1Accept(false);
+        } else matchDetails.setDidUser2Accept(false);
         this.matchRepository.save(matchDetails);
     }
     
