@@ -84,7 +84,7 @@ public class UserBooks {
         return isAvailable;
     }
 
-    public void setIs_available(boolean isAvailable) {
+    public void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
 
