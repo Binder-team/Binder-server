@@ -53,6 +53,10 @@ public class MatchController {
 
     @PutMapping("matches/accept/user/{username}")
     public void acceptTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+        UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+        UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+        book1.setIsAvailable(false);
+        book2.setIsAvailable(false);
         if (username == matchDetails.getUsername1()){
             matchDetails.setDidUser1Accept(true);
         } else matchDetails.setDidUser2Accept(true);
@@ -63,8 +67,8 @@ public class MatchController {
     public void denyTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
         UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
         UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
-        book1.setIs_available(true);
-        book2.setIs_available(true);
+        book1.setIsAvailable(true);
+        book2.setIsAvailable(true);
         this.userBooksRepository.save(book1);
         this.userBooksRepository.save(book2);
         if (username == matchDetails.getUsername1()){
