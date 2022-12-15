@@ -52,18 +52,23 @@ public class TradeTableController {
         trade.setSender(sender.getId());
         trade.setReceiver(book.getUserId());
         trade.setBook_id(book.getId());
-        trade.setIs_accepted(false);
-        trade.setIs_exchanged(false);
-        trade.setIs_matched(false);
-        this.tradeTableRepository.save(trade);
+        trade.setIsAccepted(false);
+        trade.setIsExchanged(false);
+        trade.setIsMatched(false);
 
         List<TradeTable> matchList = tradeTableRepository.findBySenderAndReceiver(book.getUserId(), sender.getId());
         if(matchList.size() != 0) {
+            trade.setIsMatched(true);
+            book.setIs_available(false);
+
             for (int i = 0; i < matchList.size(); i++) {
                 Match match = new Match();
                 TradeTable matchTrade = matchList.get(i);
                 User receiver = userRepository.findUserById(matchTrade.getSender());
                 UserBooks book2 = userBooksRepository.getReferenceById(matchTrade.getBook_id());
+                book2.setIs_available(false);
+                matchTrade.setIsMatched(true);
+
                 match.setUser1Id(sender.getId());
                 match.setUsername1(sender.getUsername());
                 match.setUser2Id((receiver.getId()));
@@ -83,12 +88,13 @@ public class TradeTableController {
                 match.setPhone1(sender.getPhone_number());
                 match.setPhone2(receiver.getPhone_number());
 
+                this.userBooksRepository.save(book2);
 
                 this.matchRepository.save(match);
-                matchTrade.setIs_matched(true);
-                this.tradeTableRepository.save(matchTrade);
             }
         }
+        this.userBooksRepository.save(book);
+        this.tradeTableRepository.save(trade);
         return matchList.size();
     }
     @PutMapping("trade_table/{id}")
@@ -99,9 +105,9 @@ public class TradeTableController {
         tradeTable.setSender(tradeTableDetails.getSender());
         tradeTable.setReceiver(tradeTableDetails.getReceiver());
         tradeTable.setBook_id(tradeTableDetails.getBook_id());
-        tradeTable.setIs_matched(tradeTableDetails.isIs_matched());
-        tradeTable.setIs_accepted(tradeTableDetails.isIs_accepted());
-        tradeTable.setIs_exchanged(tradeTableDetails.isIs_exchanged());
+        tradeTable.setIsMatched(tradeTableDetails.isIsMatched());
+        tradeTable.setIsAccepted(tradeTableDetails.isIsAccepted());
+        tradeTable.setIsExchanged(tradeTableDetails.isIsExchanged());
         return ResponseEntity.ok(this.tradeTableRepository.save(tradeTable));
     }
 

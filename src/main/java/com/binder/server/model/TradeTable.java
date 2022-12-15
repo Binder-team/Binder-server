@@ -18,25 +18,25 @@ public class TradeTable {
     @Column(name = "book_id")
     private Long book_id;
 
-    @Column(name = "is_matched")
-    private boolean is_matched;
+    @Column(name = "isMatched")
+    private boolean isMatched;
 
-    @Column(name = "is_accepted")
-    private boolean is_accepted;
-    @Column(name = "is_exchanged")
-    private boolean is_exchanged;
+    @Column(name = "isAccepted")
+    private boolean isAccepted;
+    @Column(name = "isExchanged")
+    private boolean isExchanged;
 
     public TradeTable() {
     }
 
-    public TradeTable(Long id, Long sender, Long receiver, Long book_id, boolean is_matched, boolean is_accepted, boolean is_exchanged) {
+    public TradeTable(Long id, Long sender, Long receiver, Long book_id, boolean isMatched, boolean isAccepted, boolean isExchanged) {
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
         this.book_id = book_id;
-        this.is_matched = is_matched;
-        this.is_accepted = is_accepted;
-        this.is_exchanged = is_exchanged;
+        this.isMatched = isMatched;
+        this.isAccepted = isAccepted;
+        this.isExchanged = isExchanged;
     }
 
     public Long getId() {
@@ -71,27 +71,27 @@ public class TradeTable {
         this.book_id = book_id;
     }
 
-    public boolean isIs_matched() {
-        return is_matched;
+    public boolean isIsMatched() {
+        return isMatched;
     }
 
-    public void setIs_matched(boolean is_matched) {
-        this.is_matched = is_matched;
+    public void setIsMatched(boolean is_matched) {
+        this.isMatched = is_matched;
     }
 
-    public boolean isIs_accepted() {
-        return is_accepted;
+    public boolean isIsAccepted() {
+        return isAccepted;
     }
 
-    public void setIs_accepted(boolean is_accepted) {
-        this.is_accepted = is_accepted;
+    public void setIsAccepted(boolean isAccepted) {
+        this.isAccepted = isAccepted;
     }
 
-    public boolean isIs_exchanged() {
-        return is_exchanged;
+    public boolean isIsExchanged() {
+        return isExchanged;
     }
 
-    public void setIs_exchanged(boolean is_exchanged) {
-        this.is_exchanged = is_exchanged;
+    public void setIsExchanged(boolean is_exchanged) {
+        this.isExchanged = is_exchanged;
     }
 }
