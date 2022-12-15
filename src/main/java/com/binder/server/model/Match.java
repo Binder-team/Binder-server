@@ -31,10 +31,12 @@ public class Match {
     private String title1;
     @Column(name = "author1")
     private String author1;
-
+    @Column(name = "didUser1Accept")
+    private Boolean didUser1Accept;
+    @Column(name = "didUser1Exchange")
+    private Boolean didUser1Exchange;
     @Column(name = "user2Id")
     private Long user2Id;
-
     @Column(name = "username2")
     private String username2;
     @Column(name = "condition2", columnDefinition = "TEXT")
@@ -51,10 +53,14 @@ public class Match {
     private String phone2;
     @Column(name = "thumbnail2", columnDefinition = "TEXT")
     private String thumbnail2;
+    @Column(name = "didUser2Accept")
+    private Boolean didUser2Accept;
+    @Column(name = "didUser2Exchange")
+    private Boolean didUser2Exchange;
     public Match() {
     }
 
-    public Match(Long id, Long user1Id, Long book1Id, String email1, String phone1, String thumbnail1, String username1, String condition1, String title1, String author1, Long user2Id, String username2, String condition2, String title2, String author2, Long book2Id, String email2, String phone2, String thumbnail2) {
+    public Match(Long id, Long user1Id, Long book1Id, String email1, String phone1, String thumbnail1, String username1, String condition1, String title1, String author1, Boolean didUser1Accept, Boolean didUser1Exchange, Long user2Id, String username2, String condition2, String title2, String author2, Long book2Id, String email2, String phone2, String thumbnail2, Boolean didUser2Accept, Boolean didUser2Exchange) {
         this.id = id;
         this.user1Id = user1Id;
         this.book1Id = book1Id;
@@ -65,6 +71,8 @@ public class Match {
         this.condition1 = condition1;
         this.title1 = title1;
         this.author1 = author1;
+        this.didUser1Accept = didUser1Accept;
+        this.didUser1Exchange = didUser1Exchange;
         this.user2Id = user2Id;
         this.username2 = username2;
         this.condition2 = condition2;
@@ -74,6 +82,8 @@ public class Match {
         this.email2 = email2;
         this.phone2 = phone2;
         this.thumbnail2 = thumbnail2;
+        this.didUser2Accept = didUser2Accept;
+        this.didUser2Exchange = didUser2Exchange;
     }
 
     public Long getId() {
@@ -226,5 +236,37 @@ public class Match {
 
     public void setPhone2(String phone2) {
         this.phone2 = phone2;
+    }
+
+    public Boolean getDidUser1Accept() {
+        return didUser1Accept;
+    }
+
+    public void setDidUser1Accept(Boolean didUser1Accept) {
+        this.didUser1Accept = didUser1Accept;
+    }
+
+    public Boolean getDidUser2Accept() {
+        return didUser2Accept;
+    }
+
+    public void setDidUser2Accept(Boolean didUser2Accept) {
+        this.didUser2Accept = didUser2Accept;
+    }
+
+    public Boolean getDidUser1Exchange() {
+        return didUser1Exchange;
+    }
+
+    public void setDidUser1Exchange(Boolean didUser1Exchange) {
+        this.didUser1Exchange = didUser1Exchange;
+    }
+
+    public Boolean getDidUser2Exchange() {
+        return didUser2Exchange;
+    }
+
+    public void setDidUser2Exchange(Boolean didUser2Exchange) {
+        this.didUser2Exchange = didUser2Exchange;
     }
 }

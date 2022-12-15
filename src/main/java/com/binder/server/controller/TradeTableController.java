@@ -87,6 +87,10 @@ public class TradeTableController {
                 match.setEmail2(receiver.getEmail());
                 match.setPhone1(sender.getPhone_number());
                 match.setPhone2(receiver.getPhone_number());
+                match.setDidUser1Accept(false);
+                match.setDidUser2Accept(false);
+                match.setDidUser1Exchange(false);
+                match.setDidUser2Exchange(false);
 
                 this.userBooksRepository.save(book2);
 
