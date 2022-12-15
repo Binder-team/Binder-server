@@ -40,8 +40,6 @@ public class UserBooksController {
         return ResponseEntity.ok().body(userBooks);
     }
 
-
-
     //save UserBooks
     @PostMapping("user_books/user/{username}")
     public UserBooks createUserBooks(@RequestBody UserBooks userBooks, @PathVariable(value = "username")String username) {
@@ -58,7 +56,7 @@ public class UserBooksController {
                 .orElseThrow(() -> new ResourceNotFoundException("UserBooks not found for this id :: " +userBooksId));
         userBooks.setUserId(userBooksDetails.getUserId());
         userBooks.setBook_id(userBooks.getBook_id());
-        userBooks.setIs_available(userBooks.isIs_available());
+        userBooks.setIs_available(userBooks.isIsAvailable());
         userBooks.setIsbn(userBooks.getIsbn());
         userBooks.setCondition(userBooks.getCondition());
         userBooks.setImage_url(userBooks.getImage_url());
@@ -92,6 +90,6 @@ public class UserBooksController {
     @GetMapping("user_books/swipe/{username}")
     public List<UserBooks> findOtherBooks(@PathVariable(value = "username") String username) {
         User user = userRepository.findUserByUsername(username);
-        return this.userBooksRepository.findByUserIdNot(user.getId());
+        return this.userBooksRepository.findByUserIdNotAndIsAvailable(user.getId(), true);
     }
 }

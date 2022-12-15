@@ -15,8 +15,8 @@ public class UserBooks {
     @Column(name = "book_id")
     private String book_id;
 
-    @Column(name = "is_available")
-    private boolean is_available;
+    @Column(name = "isAvailable")
+    private boolean isAvailable;
 
     @Column(name = "isbn")
     private String isbn;
@@ -42,11 +42,11 @@ public class UserBooks {
     public UserBooks() {
     }
 
-    public UserBooks(long id, Long userId, String book_id, boolean is_available, String isbn, String condition, String description, String image_url, String thumbnail_url, String title, String author) {
+    public UserBooks(long id, Long userId, String book_id, boolean isAvailable, String isbn, String condition, String description, String image_url, String thumbnail_url, String title, String author) {
         this.id = id;
         this.userId = userId;
         this.book_id = book_id;
-        this.is_available = is_available;
+        this.isAvailable = isAvailable;
         this.isbn = isbn;
         this.condition = condition;
         this.description = description;
@@ -80,12 +80,12 @@ public class UserBooks {
         this.book_id = book_id;
     }
 
-    public boolean isIs_available() {
-        return is_available;
+    public boolean isIsAvailable() {
+        return isAvailable;
     }
 
-    public void setIs_available(boolean is_available) {
-        this.is_available = is_available;
+    public void setIs_available(boolean isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
     public String getIsbn() {
