@@ -59,14 +59,12 @@ public class TradeTableController {
         List<TradeTable> matchList = tradeTableRepository.findBySenderAndReceiver(book.getUserId(), sender.getId());
         if(matchList.size() != 0) {
             trade.setIsMatched(true);
-            book.setIs_available(false);
 
             for (int i = 0; i < matchList.size(); i++) {
                 Match match = new Match();
                 TradeTable matchTrade = matchList.get(i);
                 User receiver = userRepository.findUserById(matchTrade.getSender());
                 UserBooks book2 = userBooksRepository.getReferenceById(matchTrade.getBook_id());
-                book2.setIs_available(false);
                 matchTrade.setIsMatched(true);
 
                 match.setUser1Id(sender.getId());
