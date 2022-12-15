@@ -52,9 +52,8 @@ public class UserBooksController {
     //update UserBooks
     @PutMapping("user_books/{id}")
     public ResponseEntity<UserBooks> updateUserBooks(@PathVariable(value ="id") Long userBooksId,
-           @Validated @RequestBody UserBooks userBooksDetails) throws ResourceNotFoundException {
-        UserBooks userBooks = userBooksRepository.findById(userBooksId)
-                .orElseThrow(() -> new ResourceNotFoundException("UserBooks not found for this id :: " +userBooksId));
+           @Validated @RequestBody UserBooks userBooksDetails) {
+        UserBooks userBooks = userBooksRepository.findUserBooksById(userBooksId);
         userBooks.setUserId(userBooksDetails.getUserId());
         userBooks.setBook_id(userBooks.getBook_id());
         userBooks.setIsAvailable(userBooks.isIsAvailable());
