@@ -70,13 +70,15 @@ public class MatchController {
         Match matchRecord = matchRepository.findMatchById(matchDetails.getId());
         book1.setIsAvailable(true);
         book2.setIsAvailable(true);
-        this.matchRepository.delete(matchRecord);
         this.userBooksRepository.save(book1);
         this.userBooksRepository.save(book2);
         if (username == matchDetails.getUsername1()){
             matchDetails.setDidUser1Accept(false);
         } else matchDetails.setDidUser2Accept(false);
         this.matchRepository.save(matchDetails);
+        if (matchDetails.getDidUser1Accept() == false && matchDetails.getDidUser2Accept() == false) {
+            this.matchRepository.delete(matchRecord);
+        }
     }
     
     @PutMapping("matches/exchange/user/{username}")
