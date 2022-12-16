@@ -15,8 +15,8 @@ public class TradeTable {
     @Column(name = "receiver")
     private Long receiver;
 
-    @Column(name = "book_id")
-    private Long book_id;
+    @Column(name = "bookId")
+    private Long bookId;
 
     @Column(name = "isMatched")
     private boolean isMatched;
@@ -29,11 +29,11 @@ public class TradeTable {
     public TradeTable() {
     }
 
-    public TradeTable(Long id, Long sender, Long receiver, Long book_id, boolean isMatched, boolean isAccepted, boolean isExchanged) {
+    public TradeTable(Long id, Long sender, Long receiver, Long bookId, boolean isMatched, boolean isAccepted, boolean isExchanged) {
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
-        this.book_id = book_id;
+        this.bookId = bookId;
         this.isMatched = isMatched;
         this.isAccepted = isAccepted;
         this.isExchanged = isExchanged;
@@ -63,12 +63,12 @@ public class TradeTable {
         this.receiver = receiver;
     }
 
-    public Long getBook_id() {
-        return book_id;
+    public Long getBookId() {
+        return bookId;
     }
 
-    public void setBook_id(Long book_id) {
-        this.book_id = book_id;
+    public void setBookId(Long book_id) {
+        this.bookId = book_id;
     }
 
     public boolean isIsMatched() {
