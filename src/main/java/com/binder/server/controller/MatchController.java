@@ -2,9 +2,11 @@ package com.binder.server.controller;
 
 import com.binder.server.exception.ResourceNotFoundException;
 import com.binder.server.model.Match;
+import com.binder.server.model.TradeTable;
 import com.binder.server.model.User;
 import com.binder.server.model.UserBooks;
 import com.binder.server.repository.MatchRepository;
+import com.binder.server.repository.TradeTableRepository;
 import com.binder.server.repository.UserBooksRepository;
 import com.binder.server.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +23,13 @@ public class MatchController {
     private final MatchRepository matchRepository;
     private final UserRepository userRepository;
     private final UserBooksRepository userBooksRepository;
+    private final TradeTableRepository tradeTableRepository;
 
-    public MatchController(MatchRepository matchRepository, UserRepository userRepository, UserBooksRepository userBooksRepository) {
+    public MatchController(MatchRepository matchRepository, UserRepository userRepository, UserBooksRepository userBooksRepository, TradeTableRepository tradeTableRepository) {
         this.matchRepository = matchRepository;
         this.userRepository = userRepository;
         this.userBooksRepository = userBooksRepository;
+        this.tradeTableRepository = tradeTableRepository;
     }
 
     @GetMapping("matches")
@@ -73,8 +77,12 @@ public class MatchController {
         UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
         UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
         Match matchRecord = matchRepository.findMatchById(matchDetails.getId());
+        TradeTable trade1 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser1Id(), matchDetails.getBook2Id());
+        TradeTable trade2 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser2Id(), matchDetails.getBook1Id());
         book1.setIsAvailable(true);
         book2.setIsAvailable(true);
+        this.tradeTableRepository.delete(trade1);
+        this.tradeTableRepository.delete(trade2);
         this.userBooksRepository.save(book1);
         this.userBooksRepository.save(book2);
         this.matchRepository.delete(matchRecord);

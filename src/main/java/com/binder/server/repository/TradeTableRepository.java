@@ -11,4 +11,5 @@ public interface TradeTableRepository extends JpaRepository<TradeTable, Long> {
 
     List<TradeTable> findBySender(Long sender);
     List<TradeTable> findBySenderAndReceiver(Long sender, Long receiver);
+    TradeTable findBySenderAndBookId(Long userId, Long bookId);
 }
