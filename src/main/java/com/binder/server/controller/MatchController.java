@@ -110,8 +110,6 @@ public class MatchController {
 
             this.tradeTableRepository.delete(trade1);
             this.tradeTableRepository.delete(trade2);
-            this.userBooksRepository.delete(book1);
-            this.userBooksRepository.delete(book2);
             this.matchRepository.delete(matchDetails);
         }
         return ResponseEntity.ok().body(matchDetails);
