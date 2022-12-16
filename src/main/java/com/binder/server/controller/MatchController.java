@@ -114,4 +114,14 @@ public class MatchController {
         }
         return Math.random();
     }
+
+    @GetMapping("matches/revert")
+    public void revertAllBooksAvailable() {
+        List<UserBooks> books = userBooksRepository.findAll();
+        for (int i = 0; i < books.size(); i++) {
+            UserBooks book = books.get(i);
+            book.setIsAvailable(true);
+            this.userBooksRepository.save(book);
+        }
+    }
 }
