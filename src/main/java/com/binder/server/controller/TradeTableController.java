@@ -51,7 +51,7 @@ public class TradeTableController {
         TradeTable trade = new TradeTable();
         trade.setSender(sender.getId());
         trade.setReceiver(book.getUserId());
-        trade.setBook_id(book.getId());
+        trade.setBookId(book.getId());
         trade.setIsAccepted(false);
         trade.setIsExchanged(false);
         trade.setIsMatched(false);
@@ -64,14 +64,14 @@ public class TradeTableController {
                 Match match = new Match();
                 TradeTable matchTrade = matchList.get(i);
                 User receiver = userRepository.findUserById(matchTrade.getSender());
-                UserBooks book2 = userBooksRepository.getReferenceById(matchTrade.getBook_id());
+                UserBooks book2 = userBooksRepository.getReferenceById(matchTrade.getBookId());
                 matchTrade.setIsMatched(true);
 
                 match.setUser1Id(sender.getId());
                 match.setUsername1(sender.getUsername());
                 match.setUser2Id((receiver.getId()));
                 match.setUsername2(receiver.getUsername());
-                match.setBook1Id(matchTrade.getBook_id());
+                match.setBook1Id(matchTrade.getBookId());
                 match.setBook2Id(book.getId());
                 match.setThumbnail1(book2.getThumbnail_url());
                 match.setThumbnail2(book.getThumbnail_url());
@@ -106,7 +106,7 @@ public class TradeTableController {
                 .orElseThrow(() -> new ResourceNotFoundException("TradeTable not found for this id :: " + tradeTableId));
         tradeTable.setSender(tradeTableDetails.getSender());
         tradeTable.setReceiver(tradeTableDetails.getReceiver());
-        tradeTable.setBook_id(tradeTableDetails.getBook_id());
+        tradeTable.setBookId(tradeTableDetails.getBookId());
         tradeTable.setIsMatched(tradeTableDetails.isIsMatched());
         tradeTable.setIsAccepted(tradeTableDetails.isIsAccepted());
         tradeTable.setIsExchanged(tradeTableDetails.isIsExchanged());
