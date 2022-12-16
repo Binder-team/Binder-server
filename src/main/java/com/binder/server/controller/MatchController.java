@@ -97,6 +97,17 @@ public class MatchController {
         } else matchDetails.setDidUser2Exchange(true);
         this.matchRepository.save(matchDetails);
 
+        if(matchDetails.getDidUser1Exchange() && matchDetails.getDidUser2Accept()) {
+            TradeTable trade1 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser1Id(), matchDetails.getBook2Id());
+            TradeTable trade2 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser2Id(), matchDetails.getBook1Id());
+            UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+            UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+            this.tradeTableRepository.delete(trade1);
+            this.tradeTableRepository.delete(trade2);
+            this.userBooksRepository.delete(book1);
+            this.userBooksRepository.delete(book2);
+            this.matchRepository.delete(matchDetails);
+        }
         return ResponseEntity.ok().body(matchDetails);
     }
 }
