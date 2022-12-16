@@ -67,6 +67,10 @@ public class ReputationController {
           return response;
       }
 
+//    @PostMapping("reputation/user/{username}")
+//        public ResponseEntity<Reputation> createReview(@PathVariable(value = "username")String username, @RequestBody Match matchDetails) {
+//
+//    }
 
 
 }

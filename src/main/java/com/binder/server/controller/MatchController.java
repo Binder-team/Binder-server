@@ -58,18 +58,20 @@ public class MatchController {
 
     @PutMapping("matches/accept/user/{username}")
     public ResponseEntity<Match> acceptTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+        User user = userRepository.findUserByUsername(username);
         UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
-        UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+        UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook2Id());
         book1.setIsAvailable(false);
         book2.setIsAvailable(false);
         this.userBooksRepository.save(book1);
         this.userBooksRepository.save(book2);
-        if (username == matchDetails.getUsername1()){
+        if (user.getId() == matchDetails.getUser1Id()){
             matchDetails.setDidUser1Accept(true);
-        } else matchDetails.setDidUser2Accept(true);
-        this.matchRepository.save(matchDetails);
+        } else if (user.getId() == matchDetails.getUser2Id()){
+            matchDetails.setDidUser2Accept(true);
+        }
 
-        return ResponseEntity.ok().body(matchDetails);
+        return ResponseEntity.ok().body(this.matchRepository.save(matchDetails));
     }
 
     @PutMapping("matches/deny/user/{username}")
@@ -92,9 +94,12 @@ public class MatchController {
     
     @PutMapping("matches/exchange/user/{username}")
     public ResponseEntity<Match> booksExchanged(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
-        if (username == matchDetails.getUsername1()){
+        User user = userRepository.findUserByUsername(username);
+        if (user.getId() == matchDetails.getUser1Id()){
             matchDetails.setDidUser1Exchange(true);
-        } else matchDetails.setDidUser2Exchange(true);
+        } else if (user.getId() == matchDetails.getUser2Id()){
+            matchDetails.setDidUser2Exchange(true);
+        }
         this.matchRepository.save(matchDetails);
 
         if(matchDetails.getDidUser1Exchange() && matchDetails.getDidUser2Accept()) {
