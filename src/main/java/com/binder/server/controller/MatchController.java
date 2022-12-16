@@ -57,7 +57,7 @@ public class MatchController {
     }
 
     @PutMapping("matches/accept/user/{username}")
-    public ResponseEntity<Match> acceptTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+    public double acceptTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
         User user = userRepository.findUserByUsername(username);
         UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
         UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook2Id());
@@ -71,7 +71,7 @@ public class MatchController {
             matchDetails.setDidUser2Accept(true);
         }
 
-        return ResponseEntity.ok().body(this.matchRepository.save(matchDetails));
+        return Math.random();
     }
 
     @PutMapping("matches/deny/user/{username}")
@@ -93,7 +93,7 @@ public class MatchController {
     }
     
     @PutMapping("matches/exchange/user/{username}")
-    public ResponseEntity<Match> booksExchanged(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+    public double booksExchanged(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
         User user = userRepository.findUserByUsername(username);
         if (user.getId() == matchDetails.getUser1Id()){
             matchDetails.setDidUser1Exchange(true);
@@ -112,6 +112,6 @@ public class MatchController {
             this.tradeTableRepository.delete(trade2);
             this.matchRepository.delete(matchDetails);
         }
-        return ResponseEntity.ok().body(matchDetails);
+        return Math.random();
     }
 }
