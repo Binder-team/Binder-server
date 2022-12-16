@@ -102,11 +102,12 @@ public class MatchController {
         }
         this.matchRepository.save(matchDetails);
 
-        if(matchDetails.getDidUser1Exchange() && matchDetails.getDidUser2Accept()) {
+        if(matchDetails.getDidUser1Exchange() == true && matchDetails.getDidUser2Exchange() == true) {
             TradeTable trade1 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser1Id(), matchDetails.getBook2Id());
             TradeTable trade2 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser2Id(), matchDetails.getBook1Id());
             UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
             UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
+
             this.tradeTableRepository.delete(trade1);
             this.tradeTableRepository.delete(trade2);
             this.userBooksRepository.delete(book1);
