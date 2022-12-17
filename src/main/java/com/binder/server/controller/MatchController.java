@@ -87,9 +87,9 @@ public class MatchController {
 
         return ResponseEntity.ok().body("Match denied");
     }
-    
+
     @PutMapping("matches/exchange/user/{username}")
-    public ResponseEntity<Match> booksExchanged(@PathVariable(value = "username") String username, @PathVariable(value = "score") int score, @RequestBody Match matchDetails) {
+    public ResponseEntity<String> booksExchanged(@PathVariable(value = "username") String username, @PathVariable(value = "score") int score, @RequestBody Match matchDetails) {
         User user = userRepository.findUserByUsername(username);
         if (user.getId() == matchDetails.getUser1Id()){
             matchDetails.setDidUser1Exchange(true);
@@ -114,11 +114,13 @@ public class MatchController {
             UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
             UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
 
+            this.userBooksRepository.delete(book1);
+            this.userBooksRepository.delete(book2);
             this.tradeTableRepository.delete(trade1);
             this.tradeTableRepository.delete(trade2);
             this.matchRepository.delete(matchDetails);
         }
-        return ResponseEntity.ok().body(this.matchRepository.save(matchDetails));
+        return ResponseEntity.ok().body("Exchange confirmed");
     }
 
     @GetMapping("matches/revert")
