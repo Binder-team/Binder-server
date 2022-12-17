@@ -10,13 +10,13 @@ public class Reputation {
     private Long id;
 
     @Column(name = "review_target")
-    private int review_target;
+    private Long review_target;
 
     @Column(name = "recipient")
-    private int recipient;
+    private Long recipient;
 
     @Column(name = "reviewer")
-    private int reviewer;
+    private Long reviewer;
 
     @Column(name = "score")
     private int score;
@@ -25,7 +25,8 @@ public class Reputation {
 
     }
 
-    public Reputation(int review_target,int recipient, int reviewer, int score) {
+    public Reputation(Long id, Long review_target, Long recipient, Long reviewer, int score) {
+        this.id = id;
         this.review_target = review_target;
         this.recipient = recipient;
         this.reviewer = reviewer;
@@ -40,27 +41,27 @@ public class Reputation {
         this.id = id;
     }
 
-    public int getReview_target() {
+    public Long getReview_target() {
         return review_target;
     }
 
-    public void setReview_target(int review_target) {
+    public void setReview_target(Long review_target) {
         this.review_target = review_target;
     }
 
-    public int getRecipient() {
+    public Long getRecipient() {
         return recipient;
     }
 
-    public void setRecipient(int recipient) {
+    public void setRecipient(Long recipient) {
         this.recipient = recipient;
     }
 
-    public int getReviewer() {
+    public Long getReviewer() {
         return reviewer;
     }
 
-    public void setReviewer(int reviewer) {
+    public void setReviewer(Long reviewer) {
         this.reviewer = reviewer;
     }
 
@@ -71,5 +72,4 @@ public class Reputation {
     public void setScore(int score) {
         this.score = score;
     }
-
 }

@@ -1,8 +1,12 @@
 package com.binder.server.controller;
 
 import com.binder.server.exception.ResourceNotFoundException;
+import com.binder.server.model.Match;
 import com.binder.server.model.Reputation;
+import com.binder.server.model.User;
+import com.binder.server.repository.MatchRepository;
 import com.binder.server.repository.ReputationRepository;
+import com.binder.server.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +19,12 @@ import java.util.Map;
 @RequestMapping("/api/")
 public class ReputationController {
     private final ReputationRepository reputationRepository;
-
-    public ReputationController(ReputationRepository reputationRepository) {
+    private final MatchRepository matchRepository;
+    private final UserRepository userRepository;
+    public ReputationController(ReputationRepository reputationRepository, MatchRepository matchRepository, UserRepository userRepository) {
         this.reputationRepository = reputationRepository;
+        this.matchRepository = matchRepository;
+        this.userRepository = userRepository;
     }
 
     //get reputation
@@ -67,10 +74,20 @@ public class ReputationController {
           return response;
       }
 
-//    @PostMapping("reputation/user/{username}")
-//        public ResponseEntity<Reputation> createReview(@PathVariable(value = "username")String username, @RequestBody Match matchDetails) {
-//
-//    }
+    @PostMapping("reputation/user/{username}/{score}")
+        public ResponseEntity<Reputation> createReview(@PathVariable(value = "score")int score, @PathVariable(value = "username")String username, @RequestBody Match matchDetails) {
+        User user = userRepository.findUserByUsername(username);
+        Reputation review = new Reputation();
+        review.setReviewer(user.getId());
+        review.setReview_target(matchDetails.getId());
+        review.setScore(score);
+        if (user.getId() == matchDetails.getUser1Id()) {
+            review.setRecipient(matchDetails.getUser2Id());
+        } else {
+            review.setRecipient(matchDetails.getUser1Id());
+        }
+        return ResponseEntity.ok().body(this.reputationRepository.save(review));
+    }
 
 
 }
