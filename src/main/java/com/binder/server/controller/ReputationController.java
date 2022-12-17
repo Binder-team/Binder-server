@@ -74,20 +74,6 @@ public class ReputationController {
           return response;
       }
 
-    @PostMapping("reputation/user/{username}/{score}")
-        public ResponseEntity<Reputation> createReview(@PathVariable(value = "score")int score, @PathVariable(value = "username")String username, @RequestBody Match matchDetails) {
-        User user = userRepository.findUserByUsername(username);
-        Reputation review = new Reputation();
-        review.setReviewer(user.getId());
-        review.setReview_target(matchDetails.getId());
-        review.setScore(score);
-        if (user.getId() == matchDetails.getUser1Id()) {
-            review.setRecipient(matchDetails.getUser2Id());
-        } else {
-            review.setRecipient(matchDetails.getUser1Id());
-        }
-        return ResponseEntity.ok().body(this.reputationRepository.save(review));
-    }
 
     @GetMapping("reputation/user/average/{username}")
         public ResponseEntity<List<Reputation>> getReviews(@PathVariable(value = "username") String username) {

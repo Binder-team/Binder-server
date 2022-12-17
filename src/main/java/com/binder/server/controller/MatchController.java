@@ -1,14 +1,8 @@
 package com.binder.server.controller;
 
 import com.binder.server.exception.ResourceNotFoundException;
-import com.binder.server.model.Match;
-import com.binder.server.model.TradeTable;
-import com.binder.server.model.User;
-import com.binder.server.model.UserBooks;
-import com.binder.server.repository.MatchRepository;
-import com.binder.server.repository.TradeTableRepository;
-import com.binder.server.repository.UserBooksRepository;
-import com.binder.server.repository.UserRepository;
+import com.binder.server.model.*;
+import com.binder.server.repository.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +18,14 @@ public class MatchController {
     private final UserRepository userRepository;
     private final UserBooksRepository userBooksRepository;
     private final TradeTableRepository tradeTableRepository;
+    private final ReputationRepository reputationRepository;
 
-    public MatchController(MatchRepository matchRepository, UserRepository userRepository, UserBooksRepository userBooksRepository, TradeTableRepository tradeTableRepository) {
+    public MatchController(MatchRepository matchRepository, UserRepository userRepository, UserBooksRepository userBooksRepository, TradeTableRepository tradeTableRepository, ReputationRepository reputationRepository) {
         this.matchRepository = matchRepository;
         this.userRepository = userRepository;
         this.userBooksRepository = userBooksRepository;
         this.tradeTableRepository = tradeTableRepository;
+        this.reputationRepository = reputationRepository;
     }
 
     @GetMapping("matches")
@@ -93,7 +89,7 @@ public class MatchController {
     }
     
     @PutMapping("matches/exchange/user/{username}")
-    public ResponseEntity<Match> booksExchanged(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+    public ResponseEntity<Match> booksExchanged(@PathVariable(value = "username") String username, @PathVariable(value = "score") int score, @RequestBody Match matchDetails) {
         User user = userRepository.findUserByUsername(username);
         if (user.getId() == matchDetails.getUser1Id()){
             matchDetails.setDidUser1Exchange(true);
@@ -101,6 +97,16 @@ public class MatchController {
             matchDetails.setDidUser2Exchange(true);
         }
         this.matchRepository.save(matchDetails);
+        Reputation review = new Reputation();
+        review.setReviewer(user.getId());
+        review.setReview_target(matchDetails.getId());
+        review.setScore(score);
+        if (user.getId() == matchDetails.getUser1Id()) {
+            review.setRecipient(matchDetails.getUser2Id());
+        } else {
+            review.setRecipient(matchDetails.getUser1Id());
+        }
+        this.reputationRepository.save(review);
 
         if(matchDetails.getDidUser1Exchange() == true && matchDetails.getDidUser2Exchange() == true) {
             TradeTable trade1 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser1Id(), matchDetails.getBook2Id());
