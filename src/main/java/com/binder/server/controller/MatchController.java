@@ -71,7 +71,7 @@ public class MatchController {
     }
 
     @PutMapping("matches/deny/user/{username}")
-    public ResponseEntity<Match> denyTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
+    public ResponseEntity<String> denyTrade(@PathVariable(value = "username") String username, @RequestBody Match matchDetails) {
         UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
         UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
         Match matchRecord = matchRepository.findMatchById(matchDetails.getId());
@@ -85,7 +85,7 @@ public class MatchController {
         this.userBooksRepository.save(book2);
         this.matchRepository.delete(matchRecord);
 
-        return ResponseEntity.ok().body(this.matchRepository.save(matchDetails));
+        return ResponseEntity.ok().body("Match denied");
     }
     
     @PutMapping("matches/exchange/user/{username}")
