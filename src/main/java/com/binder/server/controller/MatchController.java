@@ -88,7 +88,7 @@ public class MatchController {
         return ResponseEntity.ok().body("Match denied");
     }
 
-    @PutMapping("matches/exchange/user/{username}")
+    @PutMapping("matches/exchange/user/{username}/{score}")
     public ResponseEntity<String> booksExchanged(@PathVariable(value = "username") String username, @PathVariable(value = "score") int score, @RequestBody Match matchDetails) {
         User user = userRepository.findUserByUsername(username);
         if (user.getId() == matchDetails.getUser1Id()){
