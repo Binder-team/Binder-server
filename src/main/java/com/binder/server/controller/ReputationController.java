@@ -89,5 +89,12 @@ public class ReputationController {
         return ResponseEntity.ok().body(this.reputationRepository.save(review));
     }
 
+    @GetMapping("reputation/user/average/{username}")
+        public ResponseEntity<List<Reputation>> getReviews(@PathVariable(value = "username") String username) {
+        User user = userRepository.findUserByUsername(username);
+        List<Reputation> reputationList = reputationRepository.findReputationByRecipient(user.getId());
+
+        return ResponseEntity.ok().body(reputationList);
+    }
 
 }
