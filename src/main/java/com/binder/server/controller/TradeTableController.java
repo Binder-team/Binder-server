@@ -48,59 +48,66 @@ public class TradeTableController {
     public int createTradeTable(@RequestBody UserBooks book, @PathVariable(value = "username") String username){
         //Should have bookID(which has book owner ID) and token
         User sender = userRepository.findUserByUsername(username);
-        TradeTable trade = new TradeTable();
-        trade.setSender(sender.getId());
-        trade.setReceiver(book.getUserId());
-        trade.setBookId(book.getId());
-        trade.setIsAccepted(false);
-        trade.setIsExchanged(false);
-        trade.setIsMatched(false);
+        TradeTable likes = tradeTableRepository.findBySenderAndBookId(sender.getId(), book.getId());
+        if (likes == null) {
+            TradeTable trade = new TradeTable();
+            trade.setSender(sender.getId());
+            trade.setReceiver(book.getUserId());
+            trade.setBookId(book.getId());
+            trade.setIsAccepted(false);
+            trade.setIsExchanged(false);
+            trade.setIsMatched(false);
 
-        List<TradeTable> matchList = tradeTableRepository.findBySenderAndReceiver(book.getUserId(), sender.getId());
-        if(matchList.size() != 0) {
-            trade.setIsMatched(true);
+            List<TradeTable> matchList = tradeTableRepository.findBySenderAndReceiver(book.getUserId(), sender.getId());
+            if(matchList.size() != 0) {
+                trade.setIsMatched(true);
 
-            for (int i = 0; i < matchList.size(); i++) {
-                Match match = new Match();
-                TradeTable matchTrade = matchList.get(i);
-                User receiver = userRepository.findUserById(matchTrade.getSender());
-                UserBooks book2 = userBooksRepository.getReferenceById(matchTrade.getBookId());
-                matchTrade.setIsMatched(true);
+                for (int i = 0; i < matchList.size(); i++) {
+                    Match match = new Match();
+                    TradeTable matchTrade = matchList.get(i);
+                    User receiver = userRepository.findUserById(matchTrade.getSender());
+                    UserBooks book2 = userBooksRepository.getReferenceById(matchTrade.getBookId());
+                    matchTrade.setIsMatched(true);
 
-                match.setUser1Id(sender.getId());
-                match.setUsername1(sender.getUsername());
-                match.setUser2Id((receiver.getId()));
-                match.setUsername2(receiver.getUsername());
-                match.setBook1Id(matchTrade.getBookId());
-                match.setBook2Id(book.getId());
-                match.setThumbnail1(book2.getThumbnail_url());
-                match.setThumbnail2(book.getThumbnail_url());
-                match.setTitle1(book2.getTitle());
-                match.setTitle2(book.getTitle());
-                match.setAuthor1(book2.getAuthor());
-                match.setAuthor2(book.getAuthor());
-                match.setCondition1(book2.getCondition());
-                match.setCondition2(book.getCondition());
-                match.setEmail1(sender.getEmail());
-                match.setEmail2(receiver.getEmail());
-                match.setPhone1(sender.getPhone_number());
-                match.setPhone2(receiver.getPhone_number());
-                match.setDidUser1Accept(false);
-                match.setDidUser2Accept(false);
-                match.setDidUser1Exchange(false);
-                match.setDidUser2Exchange(false);
+                    match.setUser1Id(sender.getId());
+                    match.setUsername1(sender.getUsername());
+                    match.setUser2Id((receiver.getId()));
+                    match.setUsername2(receiver.getUsername());
+                    match.setBook1Id(matchTrade.getBookId());
+                    match.setBook2Id(book.getId());
+                    match.setThumbnail1(book2.getThumbnail_url());
+                    match.setThumbnail2(book.getThumbnail_url());
+                    match.setTitle1(book2.getTitle());
+                    match.setTitle2(book.getTitle());
+                    match.setAuthor1(book2.getAuthor());
+                    match.setAuthor2(book.getAuthor());
+                    match.setCondition1(book2.getCondition());
+                    match.setCondition2(book.getCondition());
+                    match.setEmail1(sender.getEmail());
+                    match.setEmail2(receiver.getEmail());
+                    match.setPhone1(sender.getPhone_number());
+                    match.setPhone2(receiver.getPhone_number());
+                    match.setDidUser1Accept(false);
+                    match.setDidUser2Accept(false);
+                    match.setDidUser1Exchange(false);
+                    match.setDidUser2Exchange(false);
 
-                book.setIsAvailable(false);
-                book2.setIsAvailable(false);
-                this.userBooksRepository.save(book);
-                this.userBooksRepository.save(book2);
+                    book.setIsAvailable(false);
+                    book2.setIsAvailable(false);
+                    this.userBooksRepository.save(book);
+                    this.userBooksRepository.save(book2);
 
-                this.matchRepository.save(match);
+                    this.matchRepository.save(match);
+                }
             }
+            this.userBooksRepository.save(book);
+            this.tradeTableRepository.save(trade);
+
+            return matchList.size();
+        } else {
+            return 0;
         }
-        this.userBooksRepository.save(book);
-        this.tradeTableRepository.save(trade);
-        return matchList.size();
+
     }
     @PutMapping("trade_table/{id}")
     public ResponseEntity<TradeTable> updateTradeTable(@PathVariable(value ="id") Long tradeTableId,
