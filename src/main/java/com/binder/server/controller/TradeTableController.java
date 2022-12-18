@@ -92,15 +92,9 @@ public class TradeTableController {
                     match.setDidUser1Exchange(false);
                     match.setDidUser2Exchange(false);
 
-                    book.setIsAvailable(false);
-                    book2.setIsAvailable(false);
-                    this.userBooksRepository.save(book);
-                    this.userBooksRepository.save(book2);
-
                     this.matchRepository.save(match);
                 }
             }
-            this.userBooksRepository.save(book);
             this.tradeTableRepository.save(trade);
 
             return matchList.size();

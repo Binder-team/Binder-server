@@ -57,10 +57,14 @@ public class MatchController {
         User user = userRepository.findUserByUsername(username);
         UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
         UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook2Id());
-        book1.setIsAvailable(false);
-        book2.setIsAvailable(false);
-        this.userBooksRepository.save(book1);
-        this.userBooksRepository.save(book2);
+        if (book1 != null) {
+            book1.setIsAvailable(false);
+            this.userBooksRepository.save(book1);
+        }
+        if (book2 != null) {
+            book2.setIsAvailable(false);
+            this.userBooksRepository.save(book2);
+        }
         if (user.getId() == matchDetails.getUser1Id()){
             matchDetails.setDidUser1Accept(true);
         } else if (user.getId() == matchDetails.getUser2Id()){
@@ -77,12 +81,20 @@ public class MatchController {
         Match matchRecord = matchRepository.findMatchById(matchDetails.getId());
         TradeTable trade1 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser1Id(), matchDetails.getBook2Id());
         TradeTable trade2 = tradeTableRepository.findBySenderAndBookId(matchDetails.getUser2Id(), matchDetails.getBook1Id());
-        book1.setIsAvailable(true);
-        book2.setIsAvailable(true);
-        this.tradeTableRepository.delete(trade1);
-        this.tradeTableRepository.delete(trade2);
-        this.userBooksRepository.save(book1);
-        this.userBooksRepository.save(book2);
+        if (book1 != null) {
+            book1.setIsAvailable(true);
+            this.userBooksRepository.save(book1);
+        }
+        if (book2 != null) {
+            book2.setIsAvailable(true);
+            this.userBooksRepository.save(book2);
+        }
+        if(trade1 != null) {
+            this.tradeTableRepository.delete(trade1);
+        }
+        if(trade2 != null) {
+            this.tradeTableRepository.delete(trade2);
+        }
         this.matchRepository.delete(matchRecord);
 
         return ResponseEntity.ok().body("Match denied");
