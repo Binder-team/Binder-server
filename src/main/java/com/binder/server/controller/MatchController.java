@@ -126,6 +126,32 @@ public class MatchController {
             UserBooks book1 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
             UserBooks book2 = userBooksRepository.findUserBooksById(matchDetails.getBook1Id());
 
+            List<TradeTable> book1Trades = tradeTableRepository.findByBookId(matchDetails.getBook1Id());
+            if (book1Trades.size() != 0) {
+                for (int i = 0; i < book1Trades.size(); i++) {
+                    this.tradeTableRepository.delete(book1Trades.get(i));
+                }
+            }
+            List<TradeTable> book2Trades = tradeTableRepository.findByBookId(matchDetails.getBook2Id());
+            if (book2Trades.size() != 0) {
+                for (int i = 0; i < book2Trades.size(); i++) {
+                    this.tradeTableRepository.delete(book1Trades.get(i));
+                }
+            }
+
+            List<Match> book1Matches = matchRepository.findByBook1IdOrBook2Id(matchDetails.getBook1Id(), matchDetails.getBook1Id());
+            if (book1Matches.size() != 0) {
+                for (int i = 0; i < book1Matches.size(); i++) {
+                    this.matchRepository.delete(book1Matches.get(i));
+                }
+            }
+
+            List<Match> book2Matches = matchRepository.findByBook1IdOrBook2Id(matchDetails.getBook2Id(), matchDetails.getBook2Id());
+            if (book1Matches.size() != 0) {
+                for (int i = 0; i < book1Matches.size(); i++) {
+                    this.matchRepository.delete(book2Matches.get(i));
+                }
+            }
             this.userBooksRepository.delete(book1);
             this.userBooksRepository.delete(book2);
             this.tradeTableRepository.delete(trade1);
