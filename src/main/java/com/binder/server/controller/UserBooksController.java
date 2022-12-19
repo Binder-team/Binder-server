@@ -5,13 +5,29 @@ import com.binder.server.model.User;
 import com.binder.server.model.UserBooks;
 import com.binder.server.repository.UserBooksRepository;
 import com.binder.server.repository.UserRepository;
+//import com.binder.server.service.URLB64Encoder;
+
+import com.fasterxml.jackson.databind.util.NativeImageUtil;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.coyote.Request;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.util.Base64Utils.encodeToString;
 
 @RestController
 @RequestMapping("/api/")
@@ -42,10 +58,22 @@ public class UserBooksController {
 
     //save UserBooks
     @PostMapping("user_books/user/{username}")
-    public UserBooks createUserBooks(@RequestBody UserBooks userBooks, @PathVariable(value = "username")String username) {
+    public UserBooks createUserBooks(@RequestBody UserBooks userBooks, @PathVariable(value = "username")String username) throws IOException {
         User user = userRepository.findUserByUsername(username);
         userBooks.setUserId(user.getId());
         userBooks.setIsAvailable(true);
+        //Intercept user book adding here and instead replace it with a image Base64 string
+        String thumbImg = userBooks.getThumbnail_url();
+        String bigImage = userBooks.getImage_url();
+
+        byte[] imageBytesThumb = IOUtils.toByteArray(new URL(thumbImg));
+        String base64Thumb = Base64.getEncoder().encodeToString(imageBytesThumb);
+
+        byte[] imageBytesImage = IOUtils.toByteArray(new URL(bigImage));
+        String base64Img = Base64.getEncoder().encodeToString(imageBytesImage);
+
+        userBooks.setThumbnail_url(base64Thumb);
+        userBooks.setImage_url(base64Img);
         return this.userBooksRepository.save(userBooks);
     }
 
