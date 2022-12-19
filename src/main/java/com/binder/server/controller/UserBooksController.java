@@ -67,10 +67,10 @@ public class UserBooksController {
         String bigImage = userBooks.getImage_url();
 
         byte[] imageBytesThumb = IOUtils.toByteArray(new URL(thumbImg));
-        String base64Thumb = Base64.getEncoder().encodeToString(imageBytesThumb);
+        String base64Thumb = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(imageBytesThumb);
 
         byte[] imageBytesImage = IOUtils.toByteArray(new URL(bigImage));
-        String base64Img = Base64.getEncoder().encodeToString(imageBytesImage);
+        String base64Img = "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytesImage);
 
         userBooks.setThumbnail_url(base64Thumb);
         userBooks.setImage_url(base64Img);
