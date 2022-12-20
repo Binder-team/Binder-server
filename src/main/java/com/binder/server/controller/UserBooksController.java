@@ -62,22 +62,10 @@ public class UserBooksController {
         User user = userRepository.findUserByUsername(username);
         userBooks.setUserId(user.getId());
         userBooks.setIsAvailable(true);
-        //Intercept user book adding here and instead replace it with a image Base64 string
-        String thumbImg = userBooks.getThumbnail_url();
-        String bigImage = userBooks.getImage_url();
-
-        byte[] imageBytesThumb = IOUtils.toByteArray(new URL(thumbImg));
-        String base64Thumb = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(imageBytesThumb);
-
-        byte[] imageBytesImage = IOUtils.toByteArray(new URL(bigImage));
-        String base64Img = "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytesImage);
-
-        userBooks.setThumbnail_url(base64Thumb);
-        userBooks.setImage_url(base64Img);
         return this.userBooksRepository.save(userBooks);
     }
 
-    @PostMapping("user_books/base/")
+    @PostMapping("user_books/base")
     public String translateUrl(@RequestBody UserBooks book) throws IOException {
         String image = book.getImage_url();
         byte[] imageBytes = IOUtils.toByteArray(new URL(image));
