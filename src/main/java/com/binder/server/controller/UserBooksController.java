@@ -77,6 +77,15 @@ public class UserBooksController {
         return this.userBooksRepository.save(userBooks);
     }
 
+    @PostMapping("user_books/base/")
+    public String translateUrl(@RequestBody UserBooks book) throws IOException {
+        String image = book.getImage_url();
+        byte[] imageBytes = IOUtils.toByteArray(new URL(image));
+        String base64Img = "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes);
+
+        return base64Img;
+    }
+
     //update UserBooks
     @PutMapping("user_books/{id}")
     public ResponseEntity<UserBooks> updateUserBooks(@PathVariable(value ="id") Long userBooksId,
